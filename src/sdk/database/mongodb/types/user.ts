@@ -10,3 +10,7 @@ export interface IUser {
 export interface UserDoc extends Document, IUser {}
 
 export interface UserModel extends Model<UserDoc> {}
+
+// const user:UserDoc={
+
+// }

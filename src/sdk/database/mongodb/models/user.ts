@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
+import { UserDoc, UserModel } from "../types/user";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -27,6 +28,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
       minLength: [6, "Password must be at least 6 characters"],
+      select: false,
     },
 
     avatar: {
@@ -53,4 +55,4 @@ UserSchema.methods.createJWT = function () {
   });
 };
 
-module.exports = mongoose.model("User", UserSchema);
+export const User = mongoose.model<UserDoc, UserModel>("User", UserSchema);

@@ -2,6 +2,7 @@ import { Response } from "express";
 
 import { CustomRequest, ServiceResponse } from "../../types";
 import { response } from "../../utils";
+import { db } from "../../sdk/database/mongodb";
 
 export const controller =
   (fn: (payload: { [key: string]: any }) => Promise<ServiceResponse>) =>
@@ -9,6 +10,12 @@ export const controller =
     const payload = req.form;
 
     const data = await fn(payload);
+
+    // db.UserLib.addDoc({
+    //   username: "tosh",
+    //   password: "false",
+    //   email: "sewkito@gmail.com",
+    // });
 
     if (data.setCookies && Object.values(data.cookies).length) {
       res.cookie(
