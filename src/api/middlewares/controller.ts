@@ -1,12 +1,18 @@
 import { Response, Request } from "express";
 
 import { CustomRequest, ServiceResponse } from "../../types";
-import { response } from "../../utils";
+import { response } from "../../sdk/utils";
 
 export const controller =
-  (fn: (req: CustomRequest) => Promise<ServiceResponse>) =>
+  (
+    fn: (
+      payload: { [key: string]: any },
+      req: CustomRequest
+    ) => Promise<ServiceResponse>
+  ) =>
   async (req: CustomRequest, res: Response) => {
-    const data = await fn(req);
+    const payload = req.form;
+    const data = await fn(payload, req);
 
     if (data.setCookies && Object.values(data.cookies).length) {
       res.cookie(

@@ -1,5 +1,8 @@
 import { DbLib } from "../../../classes";
 import { User } from "../models";
-import { UserDoc, UserModel } from "../types/user";
+import { IUserMethods, UserDoc, UserModel } from "../types/user";
 
-export const UserLib = new DbLib<UserDoc, UserModel>(User, "User");
+export const UserLib = new DbLib<UserDoc, IUserMethods, UserModel>(
+  User,
+  "User"
+);
