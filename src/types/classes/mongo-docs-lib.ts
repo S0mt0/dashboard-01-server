@@ -1,9 +1,10 @@
 import { Document, Model, FilterQuery } from "mongoose";
 
-export interface IMongoDocsLib<D extends Document, M extends Model<D>> {
-  model: M;
+export interface IMongoDocsLib<
+  D extends Partial<Document>,
+  M extends Model<D>,
+> {
   document: D;
-  libName: string;
 
   docExists: (query: FilterQuery<D>) => Promise<boolean>;
   addDoc: (data: D) => Promise<IMongoDocsLib<D, M>>;

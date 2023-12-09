@@ -1,21 +1,12 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 
 import { CustomRequest, ServiceResponse } from "../../types";
 import { response } from "../../utils";
-import { db } from "../../sdk/database/mongodb";
 
 export const controller =
-  (fn: (payload: { [key: string]: any }) => Promise<ServiceResponse>) =>
+  (fn: (req: CustomRequest) => Promise<ServiceResponse>) =>
   async (req: CustomRequest, res: Response) => {
-    const payload = req.form;
-
-    const data = await fn(payload);
-
-    // db.UserLib.addDoc({
-    //   username: "tosh",
-    //   password: "false",
-    //   email: "sewkito@gmail.com",
-    // });
+    const data = await fn(req);
 
     if (data.setCookies && Object.values(data.cookies).length) {
       res.cookie(

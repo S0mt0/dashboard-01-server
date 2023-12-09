@@ -4,14 +4,14 @@ import { StatusCodes as status } from "http-status-codes";
 import { errorResponse } from "../../utils";
 import { IMongoDocsLib } from "../../types/classes";
 
-export class DbLib<D extends Document, M extends Model<D>>
+export class DbLib<D extends Partial<Document>, M extends Model<D>>
   implements IMongoDocsLib<D, M>
 {
   document: D | null = null;
 
   constructor(
-    public model: M,
-    public libName: string
+    protected model: M,
+    protected libName: string
   ) {
     this.model = model;
     this.libName = libName;
@@ -30,6 +30,7 @@ export class DbLib<D extends Document, M extends Model<D>>
     }
 
     const doc = await this.model.create(data);
+
     this.document = doc;
 
     return this;
@@ -82,7 +83,7 @@ export class DbLib<D extends Document, M extends Model<D>>
     if (sortList) {
       result = result.sort(sortList);
     } else {
-      result = result.sort("-createdAt"); // By default, records will be sorted in descending order i.e from newest to oldest
+      result = result.sort("-createdAt"); // By default, records will be sorted by time of creation, in descending order i.e from newest to oldest
     }
 
     const allDocs = await result;

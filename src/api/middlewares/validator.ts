@@ -1,11 +1,12 @@
 import { NextFunction, Response } from "express";
 import Joi from "joi";
+
 import { CustomRequest } from "../../types";
 import { errorResponse } from "../../utils";
 
 export const validate =
   (fields: Record<string, any>) =>
-  (req: CustomRequest, res: Response, next: NextFunction) => {
+  (req: CustomRequest, _: Response, next: NextFunction) => {
     const schema = Joi.object().keys(fields).required().unknown(false);
 
     const requestBody = req.method == "GET" ? req.query : req.body;

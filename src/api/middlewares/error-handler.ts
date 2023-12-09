@@ -7,9 +7,14 @@ export const ErrorHandler = (
   err: Error,
   _: Request,
   res: Response,
-  __: NextFunction
+  next: NextFunction
 ) => {
-  console.log("[ERROR] ", err?.message);
+  console.log(
+    "[ERROR]: ",
+    err?.message,
+    "TIMESTAMP: ",
+    new Date().toLocaleTimeString()
+  );
 
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json({ success: false, ...err.data });

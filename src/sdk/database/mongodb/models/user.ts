@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
-import { UserDoc, UserModel } from "../types/user";
+import { IUser, IUserMethods, UserDoc, UserModel } from "../types/user";
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
   {
     username: {
       type: String,
@@ -35,6 +35,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "https://avatars.githubusercontent.com/u/15474343?v=4",
     },
+
+    refreshToken: String,
   },
   { timestamps: true }
 );
@@ -56,3 +58,5 @@ UserSchema.methods.createJWT = function () {
 };
 
 export const User = mongoose.model<UserDoc, UserModel>("User", UserSchema);
+
+export default UserSchema;
