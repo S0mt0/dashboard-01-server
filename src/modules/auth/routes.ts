@@ -20,4 +20,9 @@ export default (router: Router) => {
 
   // logout route
   router.post("/auth/sign-out", controller(auth.signOutHandler));
+
+  /**
+   * @todo Work on route for account verification
+   */
+  // router.post("/auth/verify", controller(auth.verifyHandler));
 };

@@ -44,9 +44,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     return doc.toObject();
   };
 
-  public verifySignIn = async (
-    data: UserDoc
-  ): Promise<{ user: UserDoc; refreshToken: string; accessToken: string }> => {
+  public verifySignIn = async (data: UserDoc): Promise<ServiceResponse> => {
     const userDoc = await this.findOneDoc({ email: data.email });
 
     if (!userDoc) {
@@ -81,7 +79,24 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
       "-refreshToken -password"
     );
 
-    return { user, accessToken, refreshToken };
+    return {
+      message: "Login successful",
+      data: {
+        user,
+        accessToken,
+      },
+      setCookies: true,
+      cookies: {
+        cookieName: "refresh_token",
+        cookieValue: refreshToken,
+        cookieOptions: {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000,
+          secure: true,
+          sameSite: "none",
+        },
+      },
+    };
   };
 
   private getToken = async (
@@ -93,7 +108,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     if (!userDoc) return null;
 
     return jwt.sign({ userID: userDoc._id }, process.env.JWT_SECRET, {
-      expiresIn: expiresIn || process.env.JWT_EXPIRATION,
+      expiresIn: expiresIn || process.env.JWT_EXPIRATION || "1h",
     });
   };
 
@@ -119,9 +134,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
           cookieName: "refresh_token",
           cookieOptions: {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
             secure: true,
-            sameSite: "none",
           },
         },
         statusCode: status.UNAUTHORIZED,
@@ -137,9 +150,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
         cookieName: "refresh_token",
         cookieOptions: {
           httpOnly: true,
-          maxAge: 24 * 60 * 60 * 1000,
           secure: true,
-          sameSite: "none",
         },
       },
       statusCode: status.NO_CONTENT,

@@ -6,8 +6,7 @@ import { UserLib } from "../../sdk/database/mongodb/config";
 import { errorResponse } from "../../sdk/utils";
 
 export const signUpHandler = async (
-  payload: IUser,
-  _: CustomRequest
+  payload: IUser
 ): Promise<ServiceResponse> => {
   const user = await UserLib.addDoc(payload);
 
@@ -17,30 +16,11 @@ export const signUpHandler = async (
 export const signInHandler = async (
   payload: IUser
 ): Promise<ServiceResponse> => {
-  const { accessToken, refreshToken, user } =
-    await UserLib.verifySignIn(payload);
-
-  return {
-    message: "Login successful",
-    data: {
-      user,
-      accessToken,
-    },
-    setCookies: true,
-    cookies: {
-      cookieName: "refresh_token",
-      cookieValue: refreshToken,
-      cookieOptions: {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-        secure: true,
-        sameSite: "none",
-      },
-    },
-  };
+  return await UserLib.verifySignIn(payload);
 };
 
 export const signOutHandler = async (
+  payload: null,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
   const token = req.cookies?.refresh_token;

@@ -15,7 +15,7 @@ export const response = (
   console.log("[RESPONSE DATA] ", data);
 
   return res.status(statusCode).json({
-    ...data,
     success: true,
+    ...data,
   });
 };

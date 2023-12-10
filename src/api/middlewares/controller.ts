@@ -1,6 +1,6 @@
-import { Response, Request } from "express";
+import { Response } from "express";
 
-import { CustomRequest, ServiceResponse } from "../../types";
+import { APIResponse, CustomRequest, ServiceResponse } from "../../types";
 import { response } from "../../sdk/utils";
 
 export const controller =
@@ -26,5 +26,10 @@ export const controller =
       res.clearCookie(data.cookies.cookieName, data.cookies.cookieOptions);
     }
 
-    return response(res, data, data.statusCode);
+    const responsePayload: APIResponse = {
+      data: data.data,
+      message: data.message,
+    };
+
+    return response(res, responsePayload, data.statusCode);
   };
