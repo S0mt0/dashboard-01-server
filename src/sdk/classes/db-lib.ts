@@ -7,11 +7,11 @@ import { IMongoDocsLib } from "../../types/classes";
 export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
   implements IMongoDocsLib<D, F, M>
 {
-  document: D | null = null;
+  public document: D | null = null;
 
   constructor(
     protected model: M,
-    protected libName: string
+    public libName: string
   ) {
     this.model = model;
     this.libName = libName;
@@ -22,7 +22,9 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
   };
 
   public addDoc = async (data: D): Promise<D> => {
-    if (await this.docExists({ data })) {
+    const docExists = await this.docExists({ data });
+
+    if (docExists) {
       return errorResponse(
         { message: `${this.libName} already exists` },
         status.CONFLICT
@@ -32,7 +34,6 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
     const doc = await this.model.create(data);
 
     this.document = doc;
-
     return doc;
   };
 

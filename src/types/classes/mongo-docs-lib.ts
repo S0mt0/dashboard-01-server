@@ -6,7 +6,6 @@ export interface IMongoDocsLib<
   M extends Model<D, {}, F>,
 > {
   document: D;
-
   docExists: (query: FilterQuery<D>) => Promise<boolean>;
   addDoc: (data: D) => Promise<D>;
   deleteDoc: (query: FilterQuery<D>) => Promise<IMongoDocsLib<D, F, M>>;

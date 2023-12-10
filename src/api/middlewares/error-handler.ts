@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import { StatusCodes } from "http-status-codes";
+import { StatusCodes as status } from "http-status-codes";
 
 import { CustomError } from "../";
 
@@ -16,6 +16,6 @@ export const ErrorHandler = (
   }
 
   return res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ success: false, message: err });
+    .status(status.INTERNAL_SERVER_ERROR)
+    .json({ success: false, message: err.message });
 };

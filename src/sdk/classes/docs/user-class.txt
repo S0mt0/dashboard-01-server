@@ -1,0 +1,31 @@
+The code snippet is a class called User that extends another class called DbLib. It overrides the addDoc method to check if a user with the same email already exists before creating a new user document. It also includes methods for verifying user sign-in, generating JWT tokens, comparing passwords, verifying tokens, and signing out users.
+
+Inputs
+The code snippet takes in a data object of type UserDoc as input for the addDoc and verifySignIn methods. It also takes a token string as input for the verifySignOut and verifyToken methods.
+
+Flow
+The addDoc method checks if a user with the same email already exists by calling the docExists method inherited from the DbLib class. If the user exists, it returns an error response. Otherwise, it creates a new user document using the model.create method and sets the document property of the class to the created document. It then returns the created document.
+The verifySignIn method first checks if a user with the provided email exists by calling the findOneDoc method inherited from the DbLib class. If the user does not exist, it returns an error response. It then compares the provided password with the stored password using the comparePasswords method. If the passwords do not match, it returns an error response. Otherwise, it generates an access token and a refresh token using the getToken method. It updates the refresh token of the user document and saves it. Finally, it returns the user document without the password and refresh token, along with the access token and refresh token.
+The getToken method retrieves the user document with the provided email using the findOneDoc method. If the user document does not exist, it returns null. Otherwise, it generates a JWT token using the jwt.sign method with the user ID and expiration options.
+The comparePasswords method retrieves the user document with the provided email using the findOneDoc method. It then compares the provided password with the stored password using the bcrypt.compare method and returns the result.
+The verifyToken method verifies the provided token using the jwt.verify method with the JWT secret. It returns the decoded token payload.
+The verifySignOut method verifies the provided token using the verifyToken method. If the user associated with the token does not exist, it returns a response to clear the refresh token cookie and set the status code to UNAUTHORIZED. Otherwise, it clears the refresh token of the user document and saves it. It returns a response to clear the refresh token cookie and set the status code to NO_CONTENT.
+Outputs
+The code snippet returns a user document with the added user information for the addDoc method. For the verifySignIn method, it returns an object containing the user document without the password and refresh token, along with the access token and refresh token. The verifyToken method returns the decoded token payload as a string or object. The verifySignOut method returns a response object to clear the refresh token cookie and set the status code.
+
+Usage example
+const userModel = new UserModel();
+const user = new User(userModel, "User");
+
+const newUser = await user.addDoc({
+  email: "test@example.com",
+  password: "password123",
+});
+
+const signInResult = await user.verifySignIn({
+  email: "test@example.com",
+  password: "password123",
+});
+
+console.log(newUser); // { email: "test@example.com", ... }
+console.log(signInResult); // { user: { email: "test@example.com", ... }, accessToken: "...", refreshToken: "..." }
