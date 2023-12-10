@@ -46,7 +46,10 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
     return this;
   };
 
-  public updateDoc = async (query: FilterQuery<D>, data: D): Promise<D> => {
+  public findAndUpdateDoc = async (
+    query: FilterQuery<D>,
+    data: Partial<D>
+  ): Promise<D> => {
     const updatedDoc = await this.model.findOneAndUpdate(
       query,
       { data },

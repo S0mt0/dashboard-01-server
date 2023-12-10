@@ -26,7 +26,7 @@ export const signOutHandler = async (
   const token = req.cookies?.refresh_token;
 
   if (!token) {
-    errorResponse({}, status.UNAUTHORIZED);
+    errorResponse(null, status.UNAUTHORIZED);
   }
 
   return await UserLib.verifySignOut(token);

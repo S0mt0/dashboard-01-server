@@ -3,6 +3,12 @@ import { validate, controller } from "../../api";
 import { signInPayload, signUpPayload } from "./validation-schema";
 import * as auth from "./services";
 
+/**
+ * @public
+ * @description Unprotected routes for authentication.
+ * @returns Routes
+ */
+
 export default (router: Router) => {
   // sign-up route
   router.post(

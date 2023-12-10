@@ -8,10 +8,22 @@ import { errorResponse } from "../../sdk/utils";
 export const validate =
   (fields: Record<string, any>) =>
   (req: CustomRequest, _: Response, next: NextFunction) => {
-    const schema = Joi.object().keys(fields).required().unknown(false);
+    const schema = Joi.object().keys(fields).required();
 
-    const requestBody = req.method == "GET" ? req.query : req.body;
-    const { error, value } = schema.validate(requestBody, {
+    if (req.method === "GET" || "DELETE" || "PATCH") {
+      if (!req.params?.id?.trim()) {
+        errorResponse(
+          {
+            message: "Missing 'id' in request parameter",
+          },
+          status.NOT_FOUND
+        );
+      }
+    }
+
+    const payload = req.body;
+
+    const { error, value } = schema.validate(payload, {
       abortEarly: false,
     });
 

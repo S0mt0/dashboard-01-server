@@ -1,11 +1,14 @@
 import { Router } from "express";
-import authentication from "../../modules/auth/routes";
 import { StatusCodes as status } from "http-status-codes";
+
+import authentication from "../../modules/auth/routes";
+import users from "../../modules/user/routes";
 
 const router = Router();
 
 export default () => {
   authentication(router);
+  users(router);
 
   // catch all route handler
   router.use((_, res) => {
@@ -15,6 +18,5 @@ export default () => {
     });
   });
 
-  // --------------------------
   return router;
 };
