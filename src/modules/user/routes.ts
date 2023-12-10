@@ -16,7 +16,7 @@ import { authenticator } from "../../api/middlewares/authenticator";
 export default (router: Router) => {
   router.use(authenticator);
   router
-    .route("/user")
+    .route("/user/:id")
     .get(controller(_.getUserDataHandler))
     .patch(
       validate(ProfileUpdateRequestPayload),

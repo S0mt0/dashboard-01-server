@@ -1,3 +1,4 @@
+import axios from "axios";
 import { StatusCodes as status } from "http-status-codes";
 
 import { UserLib } from "../../sdk/database/mongodb/config";
@@ -19,7 +20,7 @@ export const getUserDataHandler = async (
   req: CustomRequest
 ): Promise<ServiceResponse> => {
   const sessionUserId = req.user.userID;
-  const requestId = req.params?.Id;
+  const requestId = req.params?.id;
 
   if (requestId !== sessionUserId) {
     errorResponse(null, status.FORBIDDEN);
@@ -48,7 +49,7 @@ export const updateUserHandler = async (
   req: CustomRequest
 ): Promise<ServiceResponse> => {
   const sessionUserId = req.user.userID;
-  const requestId = req.params?.Id;
+  const requestId = req.params?.id;
 
   if (requestId !== sessionUserId) {
     errorResponse(null, status.FORBIDDEN);
@@ -56,13 +57,29 @@ export const updateUserHandler = async (
 
   const user = await UserLib.findOneDoc({ _id: requestId });
 
+  const avatarFormData = new FormData();
+  avatarFormData.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET);
+  avatarFormData.append("file", payload?.avatar);
+
+  let avatarUrl = payload?.avatar;
+
   if (payload?.avatar !== user.avatar) {
     // handle fileupload to cloudinary, delete the old one from cloudinary using the file url, then upload the nw one and save the url to db
+
+    const { data } = await axios.post(
+      process.env.CLOUDINARY_URL,
+      avatarFormData
+    );
+
+    avatarUrl = data?.secure_url as string;
   }
 
   const updatedUser = await UserLib.findAndUpdateDoc(
     { _id: requestId },
-    payload
+    {
+      ...payload,
+      avatar: avatarUrl,
+    }
   );
 
   if (!updatedUser) {
