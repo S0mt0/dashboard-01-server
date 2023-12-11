@@ -113,7 +113,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
   };
 
   private comparePasswords = async (data: UserDoc): Promise<boolean> => {
-    const userDoc = await this.findOneDoc({ email: data.email });
+    const userDoc = await this.findOneDoc({ email: data.email }, "password");
 
     return await bcrypt.compare(data.password, userDoc.password);
   };

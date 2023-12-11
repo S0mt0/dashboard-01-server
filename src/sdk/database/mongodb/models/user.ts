@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
       type: String,
       required: [true, "Password is required"],
       minLength: [6, "Password must be at least 6 characters"],
+      select: false,
     },
 
     avatar: {
@@ -47,7 +48,6 @@ UserSchema.pre("save", async function (next) {
   }
 
   this.password = await bcrypt.hash(this.password, 10);
-  console.log("[PRE HASHED PASSWORD]: " + this.password);
 });
 
 UserSchema.methods.comparePassword = async function (
