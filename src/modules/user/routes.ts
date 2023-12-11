@@ -3,6 +3,7 @@ import { validate, controller } from "../../api";
 import {
   ProfileUpdateRequestPayload,
   PasswordResetPayload,
+  userFilePayload,
 } from "./validation-schema";
 import * as _ from "./services";
 import { authenticator } from "../../api/middlewares/authenticator";
@@ -14,12 +15,12 @@ import { authenticator } from "../../api/middlewares/authenticator";
  */
 
 export default (router: Router) => {
-  router.use(authenticator);
+  // router.use(authenticator);
   router
     .route("/user/:id")
     .get(controller(_.getUserDataHandler))
     .patch(
-      validate(ProfileUpdateRequestPayload),
+      validate(ProfileUpdateRequestPayload, userFilePayload),
       controller(_.updateUserHandler)
     )
     .delete(controller(_.deleteAccountHandler));

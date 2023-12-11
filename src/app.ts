@@ -9,19 +9,20 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import { connect } from "mongoose";
 import compression from "compression";
+import formData from "express-form-data";
 
+import cloudinaryConfig from "./api/config/cloudinary";
 import { ErrorHandler } from "./api/middlewares/error-handler";
 import router from "./api/router/router";
 
 const app = express();
 
+cloudinaryConfig();
+
 app.use(cors());
-
-// built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
-
-// built-in middleware for json data
-app.use(express.json());
+app.use(formData.parse());
+app.use(express.urlencoded({ extended: false, limit: "10mb" }));
+app.use(express.json({ limit: "5mb" }));
 app.use(cookieParser());
 app.use(helmet());
 app.use(compression());

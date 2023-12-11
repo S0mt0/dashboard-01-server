@@ -37,13 +37,15 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
     return doc;
   };
 
-  public deleteDoc = async (
-    query: FilterQuery<D>
-  ): Promise<IMongoDocsLib<D, F, M>> => {
-    await this.model.findOneAndDelete(query);
-    this.document = null;
+  public deleteDoc = async (query: FilterQuery<D>): Promise<boolean> => {
+    const res = await this.model.findOneAndDelete(query);
 
-    return this;
+    if (res) {
+      this.document = null;
+      return true;
+    }
+
+    return false;
   };
 
   public findAndUpdateDoc = async (
@@ -52,12 +54,13 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
   ): Promise<D> => {
     const updatedDoc = await this.model.findOneAndUpdate(
       query,
-      { data },
+      { ...data },
       {
         new: true,
         runValidators: true,
       }
     );
+
     this.document = updatedDoc;
 
     return updatedDoc;

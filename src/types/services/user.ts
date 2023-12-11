@@ -1,7 +1,7 @@
 export type TProfileUpdateRequestPayload = {
   username?: string;
   email?: string;
-  avatar?: string;
+  avatar?: Record<string, any>;
 };
 
 export type TPasswordResetPayload = {

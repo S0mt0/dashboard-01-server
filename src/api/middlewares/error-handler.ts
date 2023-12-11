@@ -3,9 +3,16 @@ import { StatusCodes as status } from "http-status-codes";
 
 import { CustomError } from "../";
 
+/**
+ * This is a custom middleware that handles all errors thrown within or outside an asynchronous function call.
+ *
+ * Note that throughout the app, there was no need to wrap most asynchronous function calls within a try-catch block due to the presence of 'express-async-error' module declared at the top of the app entry -- This module is equivalent to wrapping the entire app within a try-catch block as it automatically throws any error arising from all asynchronous actions which then gets caught up and handled by this ErrorHandler.
+ *
+ * @returns Server Response
+ */
 export const ErrorHandler = (
   err: Error,
-  _: Request,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {

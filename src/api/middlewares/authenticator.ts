@@ -28,7 +28,7 @@ export const authenticator = async (
     req.headers?.authorization || (req.headers?.Authorization as string);
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    errorResponse({ message: "No access token provided" }, status.FORBIDDEN);
+    errorResponse({ message: "No access token provided" }, status.UNAUTHORIZED);
   }
 
   const accessToken = authHeader.split(" ")[1];

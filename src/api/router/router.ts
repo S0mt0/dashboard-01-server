@@ -6,6 +6,10 @@ import users from "../../modules/user/routes";
 
 const router = Router();
 
+/**
+ * @returns Routes and Route Handlers
+ * @summary Router
+ */
 export default () => {
   authentication(router);
   users(router);

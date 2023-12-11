@@ -8,7 +8,7 @@ export interface IMongoDocsLib<
   document: D;
   docExists: (query: FilterQuery<D>) => Promise<boolean>;
   addDoc: (data: D) => Promise<D>;
-  deleteDoc: (query: FilterQuery<D>) => Promise<IMongoDocsLib<D, F, M>>;
+  deleteDoc: (query: FilterQuery<D>) => Promise<boolean>;
   findAndUpdateDoc: (query: FilterQuery<D>, data: D) => Promise<D>;
   findOneDoc: (query: FilterQuery<D>, filters?: string) => Promise<D>;
   findAllDocs: (
