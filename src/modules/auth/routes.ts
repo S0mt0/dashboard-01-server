@@ -8,7 +8,6 @@ import * as auth from "./services";
  * @description Unprotected routes for authentication.
  * @returns Routes
  */
-
 export default (router: Router) => {
   // sign-up route
   router.post(

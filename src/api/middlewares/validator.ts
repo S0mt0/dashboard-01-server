@@ -10,17 +10,6 @@ export const validate =
   (req: CustomRequest, _: Response, next: NextFunction) => {
     const schema = Joi.object().keys(fields).required();
 
-    // if (req.method === "GET" || "DELETE" || "PATCH") {
-    //   if (!req.params?.id?.trim()) {
-    //     errorResponse(
-    //       {
-    //         message: "Missing 'id' in request parameter",
-    //       },
-    //       status.NOT_FOUND
-    //     );
-    //   }
-    // }
-
     const payload = req.body;
     const { error, value } = schema.validate(payload, {
       abortEarly: false,
@@ -41,7 +30,7 @@ export const validate =
       const schema = Joi.object().keys(fileFields).required().unknown(false);
       const { error, value: files } = schema.validate(req.files);
 
-      req.form = { ...req.form, ...req.files };
+      req.form = { ...req.form, ...files };
 
       if (error)
         errorResponse(

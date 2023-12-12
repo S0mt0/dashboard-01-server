@@ -2,7 +2,7 @@ import { StatusCodes as status } from "http-status-codes";
 
 import { UserLib } from "../../sdk/database/mongodb/config";
 import { CustomRequest, ServiceResponse } from "../../types";
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse, mail, templates } from "../../sdk/utils";
 import { TProfileUpdateRequestPayload } from "../../types/services/user";
 import { cloudinary } from "../../api/config/cloudinary";
 import { UploadApiResponse } from "cloudinary";
@@ -94,13 +94,6 @@ export const updateUserHandler = async (
   };
 };
 
-export const resetUserPasswordHandler = async () => {
-  return {};
-};
-export const resetUserPasswordRequestHandler = async () => {
-  return {};
-};
-
 export const deleteAccountHandler = async (
   payload: null,
   req: CustomRequest
@@ -114,4 +107,36 @@ export const deleteAccountHandler = async (
   }
 
   return { statusCode: status.OK };
+};
+
+export const resetUserPasswordRequestHandler = async (
+  payload: null,
+  req: CustomRequest
+): Promise<ServiceResponse> => {
+  const sessionUserId = req.user.userID;
+
+  const user = await UserLib.findOneDoc({ _id: sessionUserId });
+
+  const { html } = templates.resetP.resetPasswordHtmlMailContent({
+    username: user.username,
+    platform: "Afrolay",
+    token: "12344ffv",
+  });
+  const text = templates.resetP.passwordReset({
+    username: user.username,
+    platform: "Afrolay",
+    token: "12344ffv",
+  }).text;
+
+  const mailResponse = await mail.sendNodemailer({
+    html,
+    to: "sewkito@gmail.com",
+    subject: "Password reset",
+    text,
+  });
+  return { data: mailResponse.response };
+};
+
+export const resetUserPasswordHandler = async () => {
+  return {};
 };

@@ -9,7 +9,6 @@ export const signUpHandler = async (
   payload: IUser
 ): Promise<ServiceResponse> => {
   const user = await UserLib.addDoc(payload);
-
   return { data: user, message: "Sign up successful", statusCode: 201 };
 };
 
@@ -28,6 +27,5 @@ export const signOutHandler = async (
   if (!token) {
     errorResponse(null, status.UNAUTHORIZED);
   }
-
   return await UserLib.verifySignOut(token);
 };

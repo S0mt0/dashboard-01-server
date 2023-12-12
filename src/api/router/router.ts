@@ -7,7 +7,7 @@ import users from "../../modules/user/routes";
 const router = Router();
 
 /**
- * @returns Routes and Route Handlers
+ * @returns Routes and their Handlers
  * @summary Router
  */
 export default () => {
