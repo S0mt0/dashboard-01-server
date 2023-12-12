@@ -1,2 +1,2 @@
-export * as templates from "./mails/templates";
-export * as mail from "./mails/services";
+export * as mail from "./mails";
+export * as toolkit from "./toolkit";

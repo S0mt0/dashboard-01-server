@@ -16,10 +16,20 @@ interface Avatar {
 export type TProfileUpdateRequestPayload = {
   username?: string;
   email?: string;
+  oldPassword?: string;
+  newPassword?: string;
   avatar?: Avatar;
+};
+
+export type TPasswordResetRequestPayload = {
+  email: string;
 };
 
 export type TPasswordResetPayload = {
   newPassword: string;
   confirmPassword: string;
+};
+
+export type TResetTokenPayload = {
+  otp: string | number;
 };

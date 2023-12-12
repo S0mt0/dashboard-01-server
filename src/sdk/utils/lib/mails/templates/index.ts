@@ -1,1 +1,1 @@
-export * as resetP from "./password-reset";
+export * as pass from "./password-reset";

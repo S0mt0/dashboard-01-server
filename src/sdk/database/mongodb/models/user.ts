@@ -36,11 +36,17 @@ const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
       default: "https://avatars.githubusercontent.com/u/15474343?v=4",
     },
 
+    otp: {
+      code: Number,
+      expiresAt: Number,
+    },
+
     refreshToken: String,
   },
   { timestamps: true }
 );
 
+// Hash password before saving to database
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     // If the password is not modified, move to the next middleware
@@ -48,6 +54,15 @@ UserSchema.pre("save", async function (next) {
   }
 
   this.password = await bcrypt.hash(this.password, 10);
+});
+
+// Exclude the entire 'otp' property by default
+UserSchema.set("toObject", {
+  transform: function (doc, ret) {
+    delete ret.otp;
+    return ret;
+  },
+  versionKey: false,
 });
 
 UserSchema.methods.comparePassword = async function (

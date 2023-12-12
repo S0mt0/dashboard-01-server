@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {{{ styles }}}
+  </head>
+  <body>
+    <header />
+    <main>
+      <p>Dear <span>{{username}}</span>,</p>
+      <p>You requested to reset your password on {{platform}}.</p>
+      <p>
+        Use the 6-digit token below to initiate a password reset. Or, you can
+        follow this <a href="{{href}}">Link</a> to securely reset your password.
+      </p>
+
+      <h3>{{token}}</h3>
+
+      <p>Token is valid for 15 minutes.</p>
+
+      <article>
+        <small
+          >This message was intended for {{username}}. If you did not request a
+          password reset from {{platform}}, please ignore this email.</small
+        >
+      </article>
+    </main>
+  </body>
+</html>

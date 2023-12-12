@@ -1,2 +1,1 @@
-export * from "./handlebar";
-export * from "./template";
+export { default as passwordResetMailContent } from "./mail-content";

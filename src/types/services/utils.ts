@@ -11,7 +11,6 @@ export interface ServiceResponse {
   data?: string | Record<string, any> | boolean | number | Array<any> | null;
   statusCode?: number;
 
-  //   cookies
   setCookies?: boolean;
   clearCookies?: boolean;
   cookies?: Cookies;

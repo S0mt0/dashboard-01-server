@@ -2,11 +2,9 @@ import { Router } from "express";
 import { validate, controller } from "../../api";
 import {
   ProfileUpdateRequestPayload,
-  PasswordResetPayload,
   userFilePayload,
 } from "./validation-schema";
-import * as _ from "./services";
-import { authenticator } from "../../api/middlewares/authenticator";
+import * as _ from "./handlers";
 
 /**
  * Protected routes for user actions
@@ -15,7 +13,6 @@ import { authenticator } from "../../api/middlewares/authenticator";
  */
 
 export default (router: Router) => {
-  // router.use(authenticator);
   router
     .route("/user")
     .get(controller(_.getUserDataHandler))
@@ -24,12 +21,4 @@ export default (router: Router) => {
       controller(_.updateUserHandler)
     )
     .delete(controller(_.deleteAccountHandler));
-
-  router
-    .route("/user/reset-password")
-    .get(controller(_.resetUserPasswordRequestHandler))
-    .patch(
-      validate(PasswordResetPayload),
-      controller(_.resetUserPasswordHandler)
-    );
 };

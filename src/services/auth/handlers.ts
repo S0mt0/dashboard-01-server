@@ -9,7 +9,11 @@ export const signUpHandler = async (
   payload: IUser
 ): Promise<ServiceResponse> => {
   const user = await UserLib.addDoc(payload);
-  return { data: user, message: "Sign up successful", statusCode: 201 };
+  return {
+    data: user,
+    message: "Sign up successful",
+    statusCode: status.CREATED,
+  };
 };
 
 export const signInHandler = async (
@@ -28,4 +32,20 @@ export const signOutHandler = async (
     errorResponse(null, status.UNAUTHORIZED);
   }
   return await UserLib.verifySignOut(token);
+};
+
+export const refreshTokenHandler = async (
+  payload: null,
+  req: CustomRequest
+): Promise<ServiceResponse> => {
+  const refresh_token = req.cookies?.refresh_token;
+
+  if (!refresh_token) errorResponse(null, status.UNAUTHORIZED);
+
+  const sessionUser = await UserLib.findOneDoc({ refreshToken: refresh_token });
+  if (!sessionUser) errorResponse(null, status.FORBIDDEN);
+
+  const accessToken = await UserLib.getToken(sessionUser, "5m");
+
+  return { data: { accessToken }, statusCode: status.OK };
 };

@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { StatusCodes as status } from "http-status-codes";
 
-import authentication from "../../modules/auth/routes";
-import users from "../../modules/user/routes";
+import { authenticator } from "../../api/middlewares/authenticator";
+import authentication from "../../services/auth/routes";
+import users from "../../services/user/routes";
+import forgotPassword from "../../services/forgot-password/routes";
 
 const router = Router();
 
@@ -12,6 +14,10 @@ const router = Router();
  */
 export default () => {
   authentication(router);
+  forgotPassword(router);
+
+  /** Protected routes */
+  router.use(authenticator);
   users(router);
 
   // catch all route handler

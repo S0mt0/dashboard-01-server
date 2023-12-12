@@ -71,13 +71,10 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     const refreshToken = await this.getToken(data);
 
     userDoc.refreshToken = refreshToken;
-    userDoc.save();
+    await userDoc.save();
 
     // return a userDoc without the password and refreshToken
-    const user = await this.findOneDoc(
-      { email: data.email },
-      "-refreshToken -password"
-    );
+    const user = await this.findOneDoc({ email: data.email }, "-refreshToken");
 
     return {
       message: "Login successful",
@@ -99,7 +96,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     };
   };
 
-  private getToken = async (
+  public getToken = async (
     data: UserDoc,
     expiresIn?: string
   ): Promise<string | null> => {

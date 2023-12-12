@@ -1,7 +1,4 @@
-import { Document, Model, InferSchemaType } from "mongoose";
-import UserSchema from "../models/user";
-
-// export type IUser = InferSchemaType<typeof UserSchema>;
+import { Document, Model } from "mongoose";
 
 export interface IUser {
   username: string;
@@ -9,6 +6,10 @@ export interface IUser {
   password: string;
   avatar?: string;
   refreshToken?: string;
+  otp?: {
+    code: number;
+    expiresAt: number;
+  };
 
   [key: string]: any;
 }
@@ -16,8 +17,6 @@ export interface IUser {
 export interface UserDoc extends Partial<Document>, IUser {}
 
 export type UserModel = Model<UserDoc, {}, IUserMethods>;
-
-// export interface UserModel extends Model<UserDoc> {}
 
 export interface IUserMethods {
   comparePassword: (candidatePassword: string) => Promise<boolean>;

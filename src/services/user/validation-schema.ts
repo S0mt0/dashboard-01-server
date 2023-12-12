@@ -4,6 +4,9 @@ import passwordComplexity from "joi-password-complexity";
 export const ProfileUpdateRequestPayload = {
   email: Joi.string().email(),
   username: Joi.string(),
+  oldPassword: Joi.string(),
+  newPassword: Joi.string().required(),
+  confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
 };
 
 export const userFilePayload = {
@@ -25,9 +28,4 @@ export const userFilePayload = {
       .required(),
     bytes: Joi.number(),
   }),
-};
-
-export const PasswordResetPayload = {
-  newPassword: Joi.string().required(),
-  confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
 };

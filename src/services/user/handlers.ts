@@ -1,11 +1,12 @@
 import { StatusCodes as status } from "http-status-codes";
+import { UploadApiResponse } from "cloudinary";
+import bcrypt from "bcrypt";
 
 import { UserLib } from "../../sdk/database/mongodb/config";
 import { CustomRequest, ServiceResponse } from "../../types";
-import { errorResponse, mail, templates } from "../../sdk/utils";
+import { errorResponse } from "../../sdk/utils";
 import { TProfileUpdateRequestPayload } from "../../types/services/user";
 import { cloudinary } from "../../api/config/cloudinary";
-import { UploadApiResponse } from "cloudinary";
 
 /**
  * Function used to retrieve a single user data, using the provided user Id.
@@ -20,13 +21,13 @@ export const getUserDataHandler = async (
 ): Promise<ServiceResponse> => {
   const sessionUserId = req.user.userID;
 
-  const user = await UserLib.findOneDoc({ _id: sessionUserId });
+  const sessionUser = await UserLib.findOneDoc({ _id: sessionUserId });
 
-  if (!user) {
+  if (!sessionUser) {
     errorResponse({ message: "User not found" }, status.NOT_FOUND);
   }
 
-  return { data: user };
+  return { data: sessionUser };
 };
 
 /**
@@ -40,15 +41,29 @@ export const updateUserHandler = async (
   req: CustomRequest
 ): Promise<ServiceResponse> => {
   const sessionUserId = req.user.userID;
+  const sessionUser = await UserLib.findOneDoc({ _id: sessionUserId });
 
-  const user = await UserLib.findOneDoc({ _id: sessionUserId });
-  const parts = user.avatar?.split("/");
+  // First handle password reset if user provided new password
+  if (payload.oldPassword && payload.newPassword) {
+    const isAMatch = await bcrypt.compare(
+      payload.oldPassword,
+      sessionUser.password
+    );
+
+    if (!isAMatch) {
+      errorResponse({ message: "Incorrect password" }, status.BAD_REQUEST);
+    }
+  }
+
+  // Handle avatar if provided by user
+  const parts = sessionUser.avatar?.split("/");
   const fileName = parts[parts.length - 1].split(".")[0];
   const old_public_id = `Afrolay/${fileName}`;
 
-  // TODO: Check this to a utility function.
+  // TODO: Make this to a utility function.
   let avatar_url;
   let uploadResponse: UploadApiResponse;
+
   if (payload.avatar && Object.keys(payload.avatar).length) {
     const { size } = payload.avatar;
     const id = Date.now();
@@ -62,11 +77,17 @@ export const updateUserHandler = async (
     avatar_url = uploadResponse.secure_url;
   }
 
+  const data = {
+    avatar: avatar_url,
+    username: payload.username,
+    email: payload.email,
+    password: payload.newPassword,
+  };
+
   const updatedUser = await UserLib.findAndUpdateDoc(
     { _id: sessionUserId },
     {
-      ...payload,
-      avatar: avatar_url,
+      ...data,
     }
   );
 
@@ -107,36 +128,4 @@ export const deleteAccountHandler = async (
   }
 
   return { statusCode: status.OK };
-};
-
-export const resetUserPasswordRequestHandler = async (
-  payload: null,
-  req: CustomRequest
-): Promise<ServiceResponse> => {
-  const sessionUserId = req.user.userID;
-
-  const user = await UserLib.findOneDoc({ _id: sessionUserId });
-
-  const { html } = templates.resetP.resetPasswordHtmlMailContent({
-    username: user.username,
-    platform: "Afrolay",
-    token: "12344ffv",
-  });
-  const text = templates.resetP.passwordReset({
-    username: user.username,
-    platform: "Afrolay",
-    token: "12344ffv",
-  }).text;
-
-  const mailResponse = await mail.sendNodemailer({
-    html,
-    to: "sewkito@gmail.com",
-    subject: "Password reset",
-    text,
-  });
-  return { data: mailResponse.response };
-};
-
-export const resetUserPasswordHandler = async () => {
-  return {};
 };
