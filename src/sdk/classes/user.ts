@@ -44,7 +44,9 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     return doc.toObject();
   };
 
-  public verifySignIn = async (data: UserDoc): Promise<ServiceResponse> => {
+  public verifySignIn = async (
+    data: UserDoc
+  ): Promise<{ accessToken: string; refreshToken: string; user: UserDoc }> => {
     const userDoc = await this.findOneDoc({ email: data.email });
 
     if (!userDoc) {
@@ -67,36 +69,20 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
       );
     }
 
-    const accessToken = await this.getToken(data, "5m");
-    const refreshToken = await this.getToken(data);
+    const accessToken = await this.getAccessToken(data);
+    const refreshToken = await this.getRefreshToken(data);
 
     userDoc.refreshToken = refreshToken;
     await userDoc.save();
 
-    // return a userDoc without the password and refreshToken
-    const user = await this.findOneDoc({ email: data.email }, "-refreshToken");
-
     return {
-      message: "Login successful",
-      data: {
-        user,
-        accessToken,
-      },
-      setCookies: true,
-      cookies: {
-        cookieName: "refresh_token",
-        cookieValue: refreshToken,
-        cookieOptions: {
-          httpOnly: true,
-          maxAge: 24 * 60 * 60 * 1000,
-          secure: true,
-          sameSite: "none",
-        },
-      },
+      accessToken,
+      refreshToken,
+      user: userDoc,
     };
   };
 
-  public getToken = async (
+  public getAccessToken = async (
     data: UserDoc,
     expiresIn?: string
   ): Promise<string | null> => {
@@ -104,9 +90,31 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
 
     if (!userDoc) return null;
 
-    return jwt.sign({ userID: userDoc._id }, process.env.JWT_SECRET, {
-      expiresIn: expiresIn || process.env.JWT_EXPIRATION || "1h",
-    });
+    return jwt.sign(
+      { userID: userDoc._id },
+      process.env.JWT_ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: expiresIn || process.env.JWT_ACCESS_TOKEN_EXPIRATION || "1h",
+      }
+    );
+  };
+
+  public getRefreshToken = async (
+    data: UserDoc,
+    expiresIn?: string
+  ): Promise<string | null> => {
+    const userDoc = await this.findOneDoc({ email: data.email });
+
+    if (!userDoc) return null;
+
+    return jwt.sign(
+      { userID: userDoc._id },
+      process.env.JWT_REFRESH_TOKEN_SECRET,
+      {
+        expiresIn:
+          expiresIn || process.env.JWT_REFRESH_TOKEN_EXPIRATION || "7d",
+      }
+    );
   };
 
   private comparePasswords = async (data: UserDoc): Promise<boolean> => {
@@ -119,38 +127,16 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     return jwt.verify(token, process.env.JWT_SECRET);
   };
 
-  public verifySignOut = async (token: string): Promise<ServiceResponse> => {
+  public verifySignOut = async (token: string): Promise<boolean> => {
     const tokenPayload = this.verifyToken(token) as jwt.JwtPayload;
 
     const sessionUser = await this.findOneDoc({ _id: tokenPayload?.userID });
 
-    if (!sessionUser) {
-      return {
-        clearCookies: true,
-        cookies: {
-          cookieName: "refresh_token",
-          cookieOptions: {
-            httpOnly: true,
-            secure: true,
-          },
-        },
-        statusCode: status.UNAUTHORIZED,
-      };
-    }
+    if (!sessionUser) return false;
 
     sessionUser.refreshToken = "";
     sessionUser.save();
 
-    return {
-      clearCookies: true,
-      cookies: {
-        cookieName: "refresh_token",
-        cookieOptions: {
-          httpOnly: true,
-          secure: true,
-        },
-      },
-      statusCode: status.NO_CONTENT,
-    };
+    return true;
   };
 }

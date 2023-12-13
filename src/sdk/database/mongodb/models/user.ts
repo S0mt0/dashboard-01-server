@@ -41,7 +41,10 @@ const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
       expiresAt: Number,
     },
 
-    refreshToken: String,
+    refreshToken: {
+      type: String,
+      select: false,
+    },
   },
   { timestamps: true }
 );

@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-import { CustomError } from "../../../api";
+import { CustomError } from "../../../setup";
 import { APIResponse } from "../../../types";
 
 export const errorResponse = (data: APIResponse, statusCode?: number) => {

@@ -2,13 +2,13 @@ import fs from "fs";
 import path from "path";
 import Handlebars from "handlebars";
 
+import __ from "../styles";
+
 type ResetMailPayload = {
-  token: string | number;
+  token?: string | number;
   username: string;
   platform: string;
 };
-
-const { FRONTEND_BASEURL } = process.env;
 
 /**
  * @function
@@ -19,7 +19,6 @@ const { FRONTEND_BASEURL } = process.env;
  */
 
 export default ({ token, username, platform }: ResetMailPayload) => {
-  const href = `${FRONTEND_BASEURL}/forgot-password?token=${token}`;
   const timestamp = new Date().toLocaleTimeString();
 
   // Read template files for RESET PASSWORD mail
@@ -32,47 +31,11 @@ export default ({ token, username, platform }: ResetMailPayload) => {
     username,
     token,
     platform,
-    href,
 
-    styles: `
-        <style>
-        main{
-            padding: 0 1rem;
-        }
-
-        header {
-            background: #3f5bf6;
-            height: 2.5rem;
-        }
-
-        p {
-            color: #474747;
-            margin-block: 1rem;
-            line-height: 2;
-        }
-
-        p span {
-            text-transform: capitalize;
-            font-weight: 600;
-        }
-
-        h3 {
-            color: #27282b;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.7rem;
-        }
-
-        article {
-           text-align: center;
-           margin-top: 0.5rem;
-           color: #bebebe;
-        }
-        </style>
-    `,
+    styles: __.resetStyles,
   });
 
-  const resetMailText = `Dear ${username}, you requested to reset your password on ${platform}. Use the 6-digit token below to initiate a password reset. Or, you can follow the link, ${href} to securely reset your password. Token is valid for 15 minutes.`;
+  const resetMailText = `Dear ${username}, you requested to reset your password on ${platform}. Use the 6-digit token below to initiate a password reset.`;
 
   // Read template files for FEEDBACK mail
   const feedbackSourcePath = path.join(__dirname, "..", "feedback.html");
@@ -84,30 +47,7 @@ export default ({ token, username, platform }: ResetMailPayload) => {
     username,
     timestamp,
 
-    styles: `
-        <style>
-        main{
-            padding: 0 1rem;
-        }
-
-        header {
-            background: #3f5bf6;
-            height: 2.5rem;
-        }
-
-        p {
-            color: #474747;
-            margin-block: 1rem;
-            line-height: 2;
-        }
-
-        article {
-           text-align: center;
-           margin-top: 0.5rem;
-           color: #bebebe;
-        }
-        </style>
-    `,
+    styles: __.feedbackStyles,
   });
 
   const feedbackMailText = `Dear ${username}, your password has been successfully updated. Timestamp: ${timestamp}`;

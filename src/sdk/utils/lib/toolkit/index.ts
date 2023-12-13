@@ -18,3 +18,15 @@ export function getRandomNumbers(length: number = 6, exp: number = 15) {
 
   return { code: +code, expiresAt };
 }
+
+/**
+ * Function obscures an email address
+ * @param email string
+ * @returns Obscured email
+ */
+export const obscureEmail = (email: any) => {
+  if (email) {
+    const [name, domain] = email.split("@");
+    return `${name[0]}${new Array(name.length).join("*")}@${domain}`;
+  }
+};

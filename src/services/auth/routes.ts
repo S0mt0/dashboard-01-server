@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, controller } from "../../api";
+import { validate, controller } from "../../setup";
 import { signInPayload, signUpPayload } from "./validation-schema";
 import * as auth from "./handlers";
 
@@ -27,10 +27,5 @@ export default (router: Router) => {
   router.post("/auth/sign-out", controller(auth.signOutHandler));
 
   // refresh-token route
-  router.get("/auth/refresh-token", controller(auth.signOutHandler));
-
-  /**
-   * @todo Work on route for account verification
-   */
-  // router.post("/auth/verify", controller(auth.verifyHandler));
+  router.get("/auth/refresh-token", controller(auth.refreshTokenHandler));
 };

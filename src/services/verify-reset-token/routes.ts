@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, controller } from "../../api";
+import { validate, controller } from "../../setup";
 import { tokenPayload } from "./validation-schema";
 import * as _ from "./handlers";
 

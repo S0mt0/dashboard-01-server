@@ -6,7 +6,7 @@ import { UserLib } from "../../sdk/database/mongodb/config";
 import { CustomRequest, ServiceResponse } from "../../types";
 import { errorResponse } from "../../sdk/utils";
 import { TProfileUpdateRequestPayload } from "../../types/services/user";
-import { cloudinary } from "../../api/config/cloudinary";
+import { cloudinary } from "../../setup/config/cloudinary";
 
 /**
  * Function used to retrieve a single user data, using the provided user Id.

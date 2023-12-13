@@ -29,9 +29,6 @@ export const verifyToken = async (
     process.env.JWT_SECRET
   ) as Jwt.JwtPayload;
 
-  if (payload.otp !== decoded?.otp) {
-  }
-
   const sessionUser = await UserLib.findOneDoc({
     email: decoded?.email,
   });
@@ -71,7 +68,7 @@ export const verifyToken = async (
   );
 
   return {
-    message: "Choose a new password",
+    message: "Create a new password",
     data: { reset_access_token },
     clearCookies: true,
     cookies: {

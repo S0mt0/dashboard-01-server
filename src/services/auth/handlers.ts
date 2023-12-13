@@ -9,6 +9,7 @@ export const signUpHandler = async (
   payload: IUser
 ): Promise<ServiceResponse> => {
   const user = await UserLib.addDoc(payload);
+
   return {
     data: user,
     message: "Sign up successful",
@@ -19,7 +20,27 @@ export const signUpHandler = async (
 export const signInHandler = async (
   payload: IUser
 ): Promise<ServiceResponse> => {
-  return await UserLib.verifySignIn(payload);
+  const { accessToken, refreshToken, user } =
+    await UserLib.verifySignIn(payload);
+
+  return {
+    message: "Login successful",
+    data: {
+      user,
+      accessToken,
+    },
+    setCookies: true,
+    cookies: {
+      cookieName: "refresh_token",
+      cookieValue: refreshToken,
+      cookieOptions: {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        secure: true,
+        sameSite: "none",
+      },
+    },
+  };
 };
 
 export const signOutHandler = async (
@@ -31,7 +52,33 @@ export const signOutHandler = async (
   if (!token) {
     errorResponse(null, status.UNAUTHORIZED);
   }
-  return await UserLib.verifySignOut(token);
+
+  const isSignedOut = await UserLib.verifySignOut(token);
+
+  if (!isSignedOut)
+    return {
+      clearCookies: true,
+      cookies: {
+        cookieName: "refresh_token",
+        cookieOptions: {
+          httpOnly: true,
+          secure: true,
+        },
+      },
+      statusCode: status.UNAUTHORIZED,
+    };
+
+  return {
+    clearCookies: true,
+    cookies: {
+      cookieName: "refresh_token",
+      cookieOptions: {
+        httpOnly: true,
+        secure: true,
+      },
+    },
+    statusCode: status.NO_CONTENT,
+  };
 };
 
 export const refreshTokenHandler = async (
@@ -42,10 +89,13 @@ export const refreshTokenHandler = async (
 
   if (!refresh_token) errorResponse(null, status.UNAUTHORIZED);
 
-  const sessionUser = await UserLib.findOneDoc({ refreshToken: refresh_token });
+  const sessionUser = await UserLib.findOneDoc(
+    { refreshToken: refresh_token },
+    "refreshToken"
+  );
   if (!sessionUser) errorResponse(null, status.FORBIDDEN);
 
-  const accessToken = await UserLib.getToken(sessionUser, "5m");
+  const accessToken = await UserLib.getAccessToken(sessionUser);
 
   return { data: { accessToken }, statusCode: status.OK };
 };
