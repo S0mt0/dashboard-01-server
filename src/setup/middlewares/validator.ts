@@ -19,7 +19,7 @@ export const validate =
       errorResponse(
         {
           message: "Please provide all required fields in their correct format",
-          data: error.message,
+          data: { validation_error_message: error.message },
         },
         status.BAD_REQUEST
       );

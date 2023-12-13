@@ -10,9 +10,9 @@ import compression from "compression";
 import formData from "express-form-data";
 
 // Imports - custom modules
-import cloudinaryConfig from "./api/config/cloudinary";
-import { ErrorHandler } from "./api/middlewares/error-handler";
-import router from "./api/router/router";
+import cloudinaryConfig from "./setup/config/cloudinary";
+import { ErrorHandler } from "./setup/middlewares/error-handler";
+import router from "./setup/router/router";
 
 config();
 cloudinaryConfig();
