@@ -8,7 +8,7 @@ interface Cookies {
 
 export interface ServiceResponse {
   message?: string;
-  data?: string | Record<string, any> | boolean | number | Array<any> | null;
+  data?: Record<string, any>;
   statusCode?: number;
 
   setCookies?: boolean;

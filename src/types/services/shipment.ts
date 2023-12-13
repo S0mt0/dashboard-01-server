@@ -1,9 +1,13 @@
-import { Document, Model, Types } from "mongoose";
+import { Types } from "mongoose";
 
 // single event
-type IEvent = {
+type TEvent = {
+  _id?: Types.ObjectId;
+
   eventId: string;
+
   timestamp: string;
+
   location: {
     address: {
       addressLocality: string;
@@ -14,8 +18,10 @@ type IEvent = {
 };
 
 // single shipment
-export interface IShipment {
-  createdBy: Types.ObjectId;
+export type TShipmentPayload = {
+  _id?: Types.ObjectId;
+
+  createdBy?: Types.ObjectId;
 
   belongsTo: {
     fullName: string;
@@ -56,9 +62,5 @@ export interface IShipment {
     bill?: number;
   };
 
-  events: IEvent[];
-}
-
-export interface ShipmentDoc extends Partial<Document>, IShipment {}
-
-export type ShipmentModel = Model<ShipmentDoc>;
+  events: TEvent[];
+};

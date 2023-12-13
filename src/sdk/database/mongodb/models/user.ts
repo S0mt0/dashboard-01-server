@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
       required: [true, "Please provide an email"],
       match: [
         /^(?!\.)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "Invaliid email address",
+        "Invalid email address",
       ],
       unique: true,
       trim: true,

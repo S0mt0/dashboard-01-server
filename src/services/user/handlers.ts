@@ -51,7 +51,10 @@ export const updateUserHandler = async (
     );
 
     if (!isAMatch) {
-      errorResponse({ message: "Incorrect password" }, status.BAD_REQUEST);
+      errorResponse(
+        { message: "Old password is incorrect" },
+        status.BAD_REQUEST
+      );
     }
   }
 

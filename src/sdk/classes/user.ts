@@ -9,7 +9,6 @@ import {
   UserModel,
 } from "../../sdk/database/mongodb/types/user";
 import { errorResponse } from "../../sdk/utils";
-import { ServiceResponse } from "types";
 
 /**
  * Class representing a User.

@@ -21,8 +21,8 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
     return Boolean(await this.model.findOne(query));
   };
 
-  public addDoc = async (data: D): Promise<D> => {
-    const docExists = await this.docExists({ data });
+  public addDoc = async (data: D, query: FilterQuery<D>): Promise<D> => {
+    const docExists = await this.docExists({ ...query });
 
     if (docExists) {
       return errorResponse(
@@ -41,6 +41,17 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
     const res = await this.model.findOneAndDelete(query);
 
     if (res) {
+      this.document = null;
+      return true;
+    }
+
+    return false;
+  };
+
+  public deleteManyDocs = async (query: FilterQuery<D>): Promise<boolean> => {
+    const { acknowledged, deletedCount } = await this.model.deleteMany(query);
+
+    if (acknowledged) {
       this.document = null;
       return true;
     }
