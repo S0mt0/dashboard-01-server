@@ -1,15 +1,16 @@
 import { Router } from "express";
+
 import { validate, controller } from "../../setup";
-import { tokenPayload } from "./validation-schema";
+import { checkoutPayload } from "./validation-schema";
 import * as _ from "./handlers";
 
 /**
- * Route for validating reset password token
+ * Open  route for public client checkouts
  * @returns Routes
  */
 
 export default (router: Router) => {
   router
-    .route("/verify-token")
-    .post(validate(tokenPayload), controller(_.verifyTokenHandler));
+    .route("/checkout")
+    .post(validate(checkoutPayload), controller(_.createCardHandler));
 };

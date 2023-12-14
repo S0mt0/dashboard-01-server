@@ -18,10 +18,10 @@ export interface IShipment {
   createdBy: Types.ObjectId;
 
   belongsTo: {
-    fullName: string;
-    email: string;
-    country: string;
-    checkout: boolean;
+    fullName?: string;
+    email?: string;
+    country?: string;
+    checkout?: boolean;
   };
 
   trackingId: string;

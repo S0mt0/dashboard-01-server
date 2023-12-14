@@ -48,7 +48,7 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
     return false;
   };
 
-  public deleteManyDocs = async (query: FilterQuery<D>): Promise<boolean> => {
+  public deleteManyDocs = async (query?: FilterQuery<D>): Promise<boolean> => {
     const { acknowledged, deletedCount } = await this.model.deleteMany(query);
 
     if (acknowledged) {

@@ -3,9 +3,12 @@ import { UploadApiResponse } from "cloudinary";
 import bcrypt from "bcrypt";
 
 import { UserLib } from "../../sdk/database/mongodb/config";
-import { CustomRequest, ServiceResponse } from "../../types";
+import {
+  CustomRequest,
+  ServiceResponse,
+  TProfileUpdateRequestPayload,
+} from "../../types";
 import { errorResponse } from "../../sdk/utils";
-import { TProfileUpdateRequestPayload } from "../../types/services/user";
 import { cloudinary } from "../../setup/config/cloudinary";
 
 /**

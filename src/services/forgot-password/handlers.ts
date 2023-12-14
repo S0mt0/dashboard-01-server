@@ -1,13 +1,14 @@
 import Jwt from "jsonwebtoken";
-import { StatusCodes, StatusCodes as status } from "http-status-codes";
+import { StatusCodes as status } from "http-status-codes";
 
 import { UserLib } from "../../sdk/database/mongodb/config";
-import { CustomRequest, ServiceResponse } from "../../types";
-import { errorResponse, mail, toolkit } from "../../sdk/utils";
 import {
+  CustomRequest,
+  ServiceResponse,
   TPasswordResetPayload,
   TPasswordResetRequestPayload,
-} from "../../types/services/user";
+} from "../../types";
+import { errorResponse, mail, toolkit } from "../../sdk/utils";
 
 export const resetUserPasswordRequestHandler = async (
   payload: TPasswordResetRequestPayload,
@@ -69,12 +70,13 @@ export const resetUserPasswordRequestHandler = async (
   };
 };
 
-export const resetPassword = async (
+export const resetPasswordHandler = async (
   payload: TPasswordResetPayload,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
   const authHeader =
-    req.headers?.authorization || (req.headers?.Authorization as string);
+    (req.headers?.authorization as string) ||
+    (req.headers?.Authorization as string);
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     errorResponse({ message: "No access token provided" }, status.UNAUTHORIZED);
@@ -108,14 +110,24 @@ export const resetPassword = async (
     text,
   });
 
-  const accessToken = UserLib.getAccessToken(sessionUser);
-  const refreshToken = UserLib.getRefreshToken(sessionUser);
+  const accessToken = await UserLib.getAccessToken(sessionUser);
+  const refreshToken = await UserLib.getRefreshToken(sessionUser);
 
   return {
-    message: "Password successfully updated",
+    message: "Password updated successfully",
     data: {
       accessToken,
-      refreshToken,
+    },
+    setCookies: true,
+    cookies: {
+      cookieName: "refresh_token",
+      cookieValue: refreshToken,
+      cookieOptions: {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        secure: true,
+        sameSite: "none",
+      },
     },
     statusCode: status.OK,
   };

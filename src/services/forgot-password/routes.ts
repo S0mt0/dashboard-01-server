@@ -18,5 +18,5 @@ export default (router: Router) => {
       validate(PasswordResetRequestPayload),
       controller(_.resetUserPasswordRequestHandler)
     )
-    .patch(validate(PasswordResetPayload), controller(_.resetPassword));
+    .patch(validate(PasswordResetPayload), controller(_.resetPasswordHandler));
 };

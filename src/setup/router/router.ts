@@ -8,7 +8,8 @@ import users from "../../services/user/routes";
 import forgotPassword from "../../services/forgot-password/routes";
 import shipment_auth from "../../services/shipment-auth/routes";
 import shipment_public from "../../services/shipment-public/routes";
-import forgot_password from "../../services/forgot-password/routes";
+import checkout_public from "../../services/checkout-public/routes";
+import checkout_auth from "../../services/checkout-auth/routes";
 import verify_resetP_token from "../../services/verify-reset-token/routes";
 
 const router = Router();
@@ -21,15 +22,17 @@ export default () => {
   authentication(router);
   forgotPassword(router);
   shipment_public(router);
-  forgot_password(router);
+  checkout_public(router);
   verify_resetP_token(router);
 
   /** Protected routes */
-  router.use(authenticator);
+  router.use(authenticator); /** Authorization middleware */
+
   users(router);
   shipment_auth(router);
+  checkout_auth(router);
 
-  // catch all route handler
+  /** Catch all route handler */
   router.use((_, res) => {
     return res.status(status.NOT_FOUND).send({
       message:

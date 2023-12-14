@@ -2,19 +2,19 @@ import Jwt from "jsonwebtoken";
 import { StatusCodes as status } from "http-status-codes";
 
 import { UserLib } from "../../sdk/database/mongodb/config";
-import { CustomRequest, ServiceResponse } from "../../types";
-import { errorResponse, mail, toolkit } from "../../sdk/utils";
 import {
-  TPasswordResetPayload,
+  CustomRequest,
+  ServiceResponse,
   TResetTokenPayload,
-} from "../../types/services/user";
+} from "../../types";
+import { errorResponse } from "../../sdk/utils";
 
 /**
  * Verifies the token or OTP sent from a user when resetting password
  * @returns access token
  */
 
-export const verifyToken = async (
+export const verifyTokenHandler = async (
   payload: TResetTokenPayload,
   req: CustomRequest
 ): Promise<ServiceResponse> => {

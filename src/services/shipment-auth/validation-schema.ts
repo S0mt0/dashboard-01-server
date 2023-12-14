@@ -11,8 +11,6 @@ const eventSchema = {
   description: Joi.string().required(),
 };
 
-const eventsSchema = Joi.array().items(eventSchema);
-
 export const shipmentPayload = {
   belongsTo: Joi.object({
     fullName: Joi.string().required(),
@@ -52,5 +50,5 @@ export const shipmentPayload = {
     description: Joi.string().required(),
     bill: Joi.number(),
   }).required(),
-  events: eventsSchema.required(),
+  events: Joi.array().items(eventSchema).required(),
 };

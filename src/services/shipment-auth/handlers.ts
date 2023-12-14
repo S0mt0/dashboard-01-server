@@ -2,9 +2,8 @@ import { StatusCodes as status } from "http-status-codes";
 import { Types } from "mongoose";
 
 import { errorResponse } from "../../sdk/utils";
-import { CustomRequest, ServiceResponse } from "../../types";
+import { CustomRequest, ServiceResponse, TShipmentPayload } from "../../types";
 import { ShipmentLib } from "../../sdk/database/mongodb/config";
-import { TShipmentPayload } from "../../types/services/shipment";
 import { ShipmentDoc } from "../../sdk/database/mongodb/types/shipment";
 
 export const createShipmentHandler = async (
@@ -56,27 +55,6 @@ export const getSingleShipmentHandler = async (
   return { data: shipment };
 };
 
-export const deleteAllShipmentHandler = async (
-  payload: null,
-  req: CustomRequest
-): Promise<ServiceResponse> => {
-  const { userID } = req.user;
-
-  const areDeleted = await ShipmentLib.deleteManyDocs({ createdBy: userID });
-
-  if (areDeleted) {
-    return {
-      message: "All shipment deleted",
-      statusCode: status.OK,
-    };
-  } else {
-    errorResponse(
-      { message: "Error trying to delete" },
-      status.INTERNAL_SERVER_ERROR
-    );
-  }
-};
-
 export const getAllShipmentHandler = async (
   payload: null,
   req: CustomRequest
@@ -90,7 +68,7 @@ export const getAllShipmentHandler = async (
   return { data: { allShipment } };
 };
 
-export const updateSingleShipment = async (
+export const updateSingleShipmentHandler = async (
   payload: TShipmentPayload,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
@@ -114,24 +92,46 @@ export const updateSingleShipment = async (
   }
 
   return {
-    statusCode: status.OK,
     data: updatedShipment,
     message: "Shipment updated successfully",
   };
 };
 
-export const deleteSingleShipment = async (
+export const deleteSingleShipmentHandler = async (
   payload: null,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
   const trackingId = req.params.trackingId;
   const { userID } = req.user;
 
-  const isDeleted = await ShipmentLib.deleteDoc({ _id: userID, trackingId });
+  const isDeleted = await ShipmentLib.deleteDoc({
+    createdBy: userID,
+    trackingId,
+  });
 
   if (!isDeleted) {
     errorResponse({ message: "No shipment found" }, status.NOT_FOUND);
   }
 
   return { statusCode: status.OK };
+};
+
+export const deleteAllShipmentHandler = async (
+  payload: null,
+  req: CustomRequest
+): Promise<ServiceResponse> => {
+  const { userID } = req.user;
+
+  const areDeleted = await ShipmentLib.deleteManyDocs({ createdBy: userID });
+
+  if (areDeleted) {
+    return {
+      message: "All shipment deleted",
+    };
+  } else {
+    errorResponse(
+      { message: "Error trying to delete" },
+      status.INTERNAL_SERVER_ERROR
+    );
+  }
 };

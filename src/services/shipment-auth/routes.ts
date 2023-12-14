@@ -21,6 +21,6 @@ export default (router: Router) => {
   router
     .route("/:trackingId")
     .get(controller(_.getSingleShipmentHandler))
-    .patch(validate(shipmentPayload), controller(_.updateSingleShipment))
-    .delete(controller(_.deleteSingleShipment));
+    .patch(validate(shipmentPayload), controller(_.updateSingleShipmentHandler))
+    .delete(controller(_.deleteSingleShipmentHandler));
 };

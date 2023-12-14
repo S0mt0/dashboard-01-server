@@ -31,15 +31,5 @@ export const getSingleShipmentHandler = async (
 
   return {
     data: { shipment },
-    setCookies: true,
-    cookies: {
-      cookieName: "tracking_number",
-      cookieValue: shipment.trackingId,
-      cookieOptions: {
-        maxAge: 24 * 7 * 60 * 60 * 1000,
-        secure: true,
-        sameSite: "none",
-      },
-    },
   };
 };
