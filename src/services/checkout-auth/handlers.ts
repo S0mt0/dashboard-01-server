@@ -1,8 +1,8 @@
 import { StatusCodes as status } from "http-status-codes";
 
 import { CardLib } from "../../sdk/database/mongodb/config";
-import { CustomRequest, ServiceResponse, TCard } from "../../types";
-import { errorResponse } from "../../sdk/utils";
+import { CustomRequest, ServiceResponse } from "../../types";
+import { errorResponse } from "../../setup";
 
 export const getAllCardsHandler = async (
   payload: null,

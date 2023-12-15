@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { ShipmentDoc, ShipmentModel, IShipment } from "../types/shipment";
+import { ShipmentDoc, ShipmentModel, IShipment } from "../types";
 
 const ShipmentSchema = new mongoose.Schema<IShipment, ShipmentModel>(
   {

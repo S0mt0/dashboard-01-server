@@ -7,7 +7,7 @@ import {
   ServiceResponse,
   TResetTokenPayload,
 } from "../../types";
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse } from "../../setup";
 
 /**
  * Verifies the token or OTP sent from a user when resetting password

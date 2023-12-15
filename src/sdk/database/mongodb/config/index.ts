@@ -1,7 +1,6 @@
 import { DbLib, User } from "../../../classes";
 import { User as UserModel, Shipment, Card } from "../models";
-import { CardDoc, CardModel } from "../types/card-details";
-import { ShipmentDoc, ShipmentModel } from "../types/shipment";
+import { CardDoc, CardModel, ShipmentDoc, ShipmentModel } from "../types";
 
 export const UserLib = new User(UserModel, "User");
 
@@ -10,4 +9,4 @@ export const ShipmentLib = new DbLib<ShipmentDoc, {}, ShipmentModel>(
   "Shipment"
 );
 
-export const CardLib = new DbLib<CardDoc, {}, CardModel>(Card, "Shipment");
+export const CardLib = new DbLib<CardDoc, {}, CardModel>(Card, "Card");

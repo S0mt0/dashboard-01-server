@@ -2,13 +2,15 @@ import Jwt from "jsonwebtoken";
 import { StatusCodes as status } from "http-status-codes";
 
 import { UserLib } from "../../sdk/database/mongodb/config";
+import { mail, toolkit } from "../../sdk/lib";
+import { errorResponse } from "../../setup";
+
 import {
   CustomRequest,
   ServiceResponse,
   TPasswordResetPayload,
   TPasswordResetRequestPayload,
 } from "../../types";
-import { errorResponse, mail, toolkit } from "../../sdk/utils";
 
 export const resetUserPasswordRequestHandler = async (
   payload: TPasswordResetRequestPayload,

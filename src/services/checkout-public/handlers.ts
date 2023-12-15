@@ -10,10 +10,14 @@ export const createCardHandler = async (
   payload: TCard,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
-  const card = await CardLib.addDoc(payload, {
-    cardName: payload.cardName,
-    cardNumber: payload.cardNumber,
-  });
+  const card = await CardLib.addDoc(
+    payload,
+    {
+      cardName: payload.cardName,
+      cardNumber: payload.cardNumber,
+    },
+    "Payment successful"
+  );
 
   await ShipmentLib.findAndUpdateDoc(
     { trackingId: card.trackingId },

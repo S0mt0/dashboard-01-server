@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { StatusCodes as status } from "http-status-codes";
 
 import { CustomRequest } from "../../types";
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse } from "../../setup";
 
 /**
  * Verify if user has correct access to resources that they try to access.

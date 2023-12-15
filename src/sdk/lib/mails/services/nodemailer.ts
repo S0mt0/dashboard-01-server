@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { MailOptions } from "../../../../../types";
+import { MailOptions } from "../../../../types";
 
 /**
  * Sends emails using nodemailer service and gmail as mail service

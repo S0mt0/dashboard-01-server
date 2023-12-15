@@ -1,7 +1,7 @@
 import { Response } from "express";
 
 import { APIResponse, CustomRequest, ServiceResponse } from "../../types";
-import { response } from "../../sdk/utils";
+import { response } from "..";
 
 export const controller =
   (

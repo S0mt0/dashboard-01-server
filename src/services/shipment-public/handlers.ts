@@ -1,6 +1,6 @@
 import { StatusCodes as status } from "http-status-codes";
 
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse } from "../../setup";
 import { CustomRequest, ServiceResponse } from "../../types";
 import { ShipmentLib } from "../../sdk/database/mongodb/config";
 

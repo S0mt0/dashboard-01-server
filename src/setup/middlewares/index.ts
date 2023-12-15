@@ -1,3 +1,3 @@
-export * from "./controller";
+export * from "./authenticator";
 export * from "./validator";
 export * from "./error-handler";

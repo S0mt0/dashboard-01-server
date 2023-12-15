@@ -1,7 +1,7 @@
 import { StatusCodes as status } from "http-status-codes";
 import { Types } from "mongoose";
 
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse } from "../../setup";
 import { CustomRequest, ServiceResponse, TShipmentPayload } from "../../types";
 import { ShipmentLib } from "../../sdk/database/mongodb/config";
 import { ShipmentDoc } from "../../sdk/database/mongodb/types/shipment";
@@ -21,9 +21,13 @@ export const createShipmentHandler = async (
     tempShipment.status.status = payload.status.status;
   }
 
-  await ShipmentLib.addDoc(tempShipment, {
-    trackingId: payload.trackingId,
-  });
+  await ShipmentLib.addDoc(
+    tempShipment,
+    {
+      trackingId: payload.trackingId,
+    },
+    "There is a shipment with that tracking number, please try a different one"
+  );
 
   return {
     message: "Shipment created successfully",

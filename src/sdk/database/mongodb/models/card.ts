@@ -1,4 +1,4 @@
-import { CardDoc, CardModel } from "../types/card-details";
+import { CardDoc, CardModel } from "../types";
 import { TCard } from "../../../../types";
 
 import mongoose from "mongoose";

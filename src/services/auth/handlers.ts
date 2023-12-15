@@ -3,12 +3,16 @@ import { StatusCodes as status } from "http-status-codes";
 import { CustomRequest, ServiceResponse } from "../../types";
 import { IUser } from "../../sdk/database/mongodb/types/user";
 import { UserLib } from "../../sdk/database/mongodb/config";
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse } from "../../setup";
 
 export const signUpHandler = async (
   payload: IUser
 ): Promise<ServiceResponse> => {
-  const user = await UserLib.addDoc(payload);
+  const user = await UserLib.addDoc(
+    payload,
+    { email: payload.email },
+    "This email is already in use, please login or use a different email address."
+  );
 
   return {
     data: user,

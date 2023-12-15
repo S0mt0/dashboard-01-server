@@ -8,7 +8,7 @@ import {
   ServiceResponse,
   TProfileUpdateRequestPayload,
 } from "../../types";
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse } from "../../setup";
 import { cloudinary } from "../../setup/config/cloudinary";
 
 /**

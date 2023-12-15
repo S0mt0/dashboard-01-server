@@ -1,8 +1,8 @@
 import { Document, Model, FilterQuery } from "mongoose";
 import { StatusCodes as status } from "http-status-codes";
 
-import { errorResponse } from "../utils";
 import { IMongoDocsLib } from "../../types/classes";
+import { errorResponse } from "../../setup";
 
 export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
   implements IMongoDocsLib<D, F, M>
@@ -21,20 +21,25 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
     return Boolean(await this.model.findOne(query));
   };
 
-  public addDoc = async (data: D, query: FilterQuery<D>): Promise<D> => {
+  public addDoc = async (
+    data: D,
+    query: FilterQuery<D>,
+    message?: string
+  ): Promise<D> => {
     const docExists = await this.docExists({ ...query });
 
     if (docExists) {
       return errorResponse(
-        { message: `${this.libName} already exists` },
+        { message: message || `${this.libName} already exists` },
         status.CONFLICT
       );
     }
 
     const doc = await this.model.create(data);
 
-    this.document = doc;
-    return doc;
+    this.document = doc.toObject();
+
+    return doc.toObject();
   };
 
   public deleteDoc = async (query: FilterQuery<D>): Promise<boolean> => {

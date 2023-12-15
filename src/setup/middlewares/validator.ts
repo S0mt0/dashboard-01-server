@@ -3,7 +3,7 @@ import Joi from "joi";
 import { StatusCodes as status } from "http-status-codes";
 
 import { CustomRequest } from "../../types";
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse } from "..";
 
 export const validate =
   (fields: Record<string, any>, fileFields?: Record<string, any>) =>

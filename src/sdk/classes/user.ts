@@ -8,7 +8,7 @@ import {
   UserDoc,
   UserModel,
 } from "../../sdk/database/mongodb/types/user";
-import { errorResponse } from "../../sdk/utils";
+import { errorResponse } from "../../setup";
 
 /**
  * Class representing a User.
@@ -23,25 +23,6 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
   ) {
     super(model, libName);
   }
-
-  public override addDoc = async (data: UserDoc): Promise<UserDoc> => {
-    const userExists = await this.docExists({ email: data.email });
-
-    if (userExists) {
-      return errorResponse(
-        {
-          message: "This email has been registered before, please try again.",
-        },
-        status.CONFLICT
-      );
-    }
-
-    const doc = await this.model.create(data);
-
-    this.document = doc.toObject();
-
-    return doc.toObject();
-  };
 
   public verifySignIn = async (
     data: UserDoc
@@ -134,7 +115,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     if (!sessionUser) return false;
 
     sessionUser.refreshToken = "";
-    sessionUser.save();
+    await sessionUser.save();
 
     return true;
   };

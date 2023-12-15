@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { StatusCodes as status } from "http-status-codes";
 
-import { authenticator } from "../../setup/middlewares/authenticator";
+import { authenticator } from "..";
 
 import authentication from "../../services/auth/routes";
 import users from "../../services/user/routes";
