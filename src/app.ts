@@ -13,14 +13,15 @@ import formData from "express-form-data";
 import cloudinaryConfig from "./setup/config/cloudinary";
 import { ErrorHandler } from "./setup/middlewares/error-handler";
 import router from "./setup/router/router";
+import { corsOptions } from "./setup/config";
 
 config();
 cloudinaryConfig();
 const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(formData.parse());
-app.use(express.urlencoded({ extended: false, limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.json({ limit: "5mb" }));
 app.use(cookieParser());
 app.use(helmet());
