@@ -25,7 +25,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
   }
 
   public verifySignIn = async (
-    data: UserDoc
+    data: Partial<UserDoc>
   ): Promise<{ accessToken: string; refreshToken: string; user: UserDoc }> => {
     const userDoc = await this.findOneDoc({ email: data.email });
 
@@ -63,7 +63,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
   };
 
   public getAccessToken = async (
-    data: UserDoc,
+    data: Partial<UserDoc>,
     expiresIn?: string
   ): Promise<string | null> => {
     const userDoc = await this.findOneDoc({ email: data.email });
@@ -80,7 +80,7 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
   };
 
   public getRefreshToken = async (
-    data: UserDoc,
+    data: Partial<UserDoc>,
     expiresIn?: string
   ): Promise<string | null> => {
     const userDoc = await this.findOneDoc({ email: data.email });
@@ -97,8 +97,10 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     );
   };
 
-  private comparePasswords = async (data: UserDoc): Promise<boolean> => {
-    const userDoc = await this.findOneDoc({ email: data.email }, "password");
+  private comparePasswords = async (
+    data: Partial<UserDoc>
+  ): Promise<boolean> => {
+    const userDoc = await this.findOneDoc({ email: data.email }, "+password");
 
     return await bcrypt.compare(data.password, userDoc.password);
   };

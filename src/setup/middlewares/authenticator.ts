@@ -19,7 +19,7 @@ import { errorResponse } from "../../setup";
  * @yields If verification is successful, it attaches a "userID" value to the request body
  */
 
-export const authenticator = async (
+export const authenticator = (
   req: CustomRequest,
   res: Response,
   next: NextFunction
@@ -28,7 +28,7 @@ export const authenticator = async (
     req.headers?.authorization || (req.headers?.Authorization as string);
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    errorResponse({ message: "No access token provided" }, status.UNAUTHORIZED);
+    errorResponse({ message: "No access token provided" }, status.FORBIDDEN);
   }
 
   const accessToken = authHeader.split(" ")[1];

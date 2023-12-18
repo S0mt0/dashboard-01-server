@@ -81,7 +81,7 @@ export const resetPasswordHandler = async (
     (req.headers?.Authorization as string);
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    errorResponse({ message: "No access token provided" }, status.UNAUTHORIZED);
+    errorResponse({ message: "No access token provided" }, status.FORBIDDEN);
   }
 
   const reset_token = authHeader.split(" ")[1];

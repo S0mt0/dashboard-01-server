@@ -23,9 +23,9 @@ app.use(cors(corsOptions));
 app.use(formData.parse());
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.json({ limit: "5mb" }));
-app.use(cookieParser());
 app.use(helmet());
 app.use(compression());
+app.use(cookieParser());
 
 // Load app routes and handlers
 app.use("/api/v1", router());
@@ -43,7 +43,9 @@ const startServer = async () => {
       console.log(`Server is listening on port: ${process.env.PORT}`)
     );
   } catch (error) {
-    console.log(error);
+    console.log(
+      "An error occured while connecting to database, please try again."
+    );
   }
 };
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { controller } from "../../setup";
+import { authenticator, controller } from "../../setup";
 import * as _ from "./handlers";
 
 /**
@@ -11,8 +11,12 @@ import * as _ from "./handlers";
 export default (router: Router) => {
   router
     .route("/checkout")
-    .get(controller(_.getAllCardsHandler))
-    .delete(controller(_.deleteAllCardsHandler));
+    .get(authenticator, controller(_.getAllCardsHandler))
+    .delete(authenticator, controller(_.deleteAllCardsHandler));
 
-  router.route("/checkout/:id").delete(controller(_.deleteSingleCardsHandler));
+  router.delete(
+    "/checkout/:id",
+    authenticator,
+    controller(_.deleteSingleCardsHandler)
+  );
 };

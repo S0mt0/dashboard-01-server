@@ -10,5 +10,5 @@ import * as _ from "./handlers";
  */
 
 export default (router: Router) => {
-  router.route("/tracking").get(controller(_.getSingleShipmentHandler));
+  router.get("/tracking", controller(_.getSingleShipmentHandler));
 };

@@ -22,7 +22,7 @@ export default ({ token, username, platform }: ResetMailPayload) => {
   const timestamp = new Date().toLocaleTimeString();
 
   // Read template files for RESET PASSWORD mail
-  const resetSourcePath = path.join(__dirname, "..", "reset.html");
+  const resetSourcePath = path.join(__dirname, "..", "templates", "reset.html");
   const resetTemplateSource = fs.readFileSync(resetSourcePath, "utf8");
 
   //   compile template
@@ -38,7 +38,12 @@ export default ({ token, username, platform }: ResetMailPayload) => {
   const resetMailText = `Dear ${username}, you requested to reset your password on ${platform}. Use the 6-digit token below to initiate a password reset.`;
 
   // Read template files for FEEDBACK mail
-  const feedbackSourcePath = path.join(__dirname, "..", "feedback.html");
+  const feedbackSourcePath = path.join(
+    __dirname,
+    "..",
+    "templates",
+    "feedback.html"
+  );
   const feedbackTemplateSource = fs.readFileSync(feedbackSourcePath, "utf8");
 
   //   compile template

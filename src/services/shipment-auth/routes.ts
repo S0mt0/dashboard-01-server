@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { validate, controller } from "../../setup";
+import { validate, controller, authenticator } from "../../setup";
 import { shipmentPayload } from "./validation-schema";
 import * as _ from "./handlers";
 
@@ -14,13 +14,21 @@ export default (router: Router) => {
   // auth route for shipment actions
   router
     .route("/")
-    .delete(controller(_.deleteAllShipmentHandler))
-    .get(controller(_.getAllShipmentHandler))
-    .post(validate(shipmentPayload), controller(_.createShipmentHandler));
+    .delete(authenticator, controller(_.deleteAllShipmentHandler))
+    .get(authenticator, controller(_.getAllShipmentHandler))
+    .post(
+      authenticator,
+      validate(shipmentPayload),
+      controller(_.createShipmentHandler)
+    );
 
   router
     .route("/:trackingId")
-    .get(controller(_.getSingleShipmentHandler))
-    .patch(validate(shipmentPayload), controller(_.updateSingleShipmentHandler))
-    .delete(controller(_.deleteSingleShipmentHandler));
+    .get(authenticator, controller(_.getSingleShipmentHandler))
+    .patch(
+      authenticator,
+      validate(shipmentPayload),
+      controller(_.updateSingleShipmentHandler)
+    )
+    .delete(authenticator, controller(_.deleteSingleShipmentHandler));
 };

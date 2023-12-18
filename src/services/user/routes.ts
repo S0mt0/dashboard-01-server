@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, controller } from "../../setup";
+import { validate, controller, authenticator } from "../../setup";
 import {
   ProfileUpdateRequestPayload,
   userFilePayload,
@@ -15,10 +15,11 @@ import * as _ from "./handlers";
 export default (router: Router) => {
   router
     .route("/user")
-    .get(controller(_.getUserDataHandler))
+    .get(authenticator, controller(_.getUserDataHandler))
     .patch(
+      authenticator,
       validate(ProfileUpdateRequestPayload, userFilePayload),
       controller(_.updateUserHandler)
     )
-    .delete(controller(_.deleteAccountHandler));
+    .delete(authenticator, controller(_.deleteAccountHandler));
 };

@@ -8,6 +8,7 @@ import {
   TResetTokenPayload,
 } from "../../types";
 import { errorResponse } from "../../setup";
+import { mail, toolkit } from "../../sdk/lib";
 
 /**
  * Verifies the token or OTP sent from a user when resetting password
@@ -21,7 +22,7 @@ export const verifyTokenHandler = async (
   const reset_token = req.cookies?.reset_token;
 
   if (!reset_token) {
-    errorResponse({ message: "No or expired session" }, status.BAD_REQUEST);
+    errorResponse({ message: "No or expired session" }, status.FORBIDDEN);
   }
 
   const decoded = Jwt.verify(
@@ -38,7 +39,7 @@ export const verifyTokenHandler = async (
       {
         message: `No account found for ${sessionUser.email}`,
       },
-      status.NOT_FOUND
+      status.FORBIDDEN
     );
   }
 
@@ -78,5 +79,65 @@ export const verifyTokenHandler = async (
         secure: true,
       },
     },
+  };
+};
+export const resendTokenHandler = async (
+  payload: null,
+  req: CustomRequest
+): Promise<ServiceResponse> => {
+  const reset_token = req.cookies?.reset_token;
+
+  if (!reset_token) {
+    errorResponse({ message: "No or expired session" }, status.FORBIDDEN);
+  }
+
+  const decoded = Jwt.verify(
+    reset_token,
+    process.env.JWT_SECRET
+  ) as Jwt.JwtPayload;
+
+  const sessionUser = await UserLib.findOneDoc({
+    email: decoded?.email,
+  });
+
+  if (!sessionUser) {
+    errorResponse(
+      {
+        message: `No account found for ${sessionUser.email}`,
+      },
+      status.NOT_FOUND
+    );
+  }
+
+  const { code, expiresAt } = toolkit.getRandomNumbers();
+  // Attach "otp" property to user and save to database
+  sessionUser.otp = {
+    code,
+    expiresAt,
+  };
+
+  await sessionUser.save();
+
+  const {
+    resetMail: { html, text },
+  } = mail.pass.passwordResetMailContent({
+    username: sessionUser.username,
+    token: code,
+    platform: "My-Dashboard",
+  });
+
+  // Send a mail to the user containing the generated token
+  await mail.sendNodemailer({
+    html,
+    to: sessionUser.email,
+    subject: "PASSWORD RESET",
+    text,
+  });
+
+  /** Obscure email */
+  const obscuredEmail = toolkit.obscureEmail(sessionUser.email);
+
+  return {
+    message: `A new code has been sent to ${obscuredEmail}.`,
   };
 };

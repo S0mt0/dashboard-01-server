@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { StatusCodes as status } from "http-status-codes";
 
-import { authenticator } from "..";
-
 import authentication from "../../services/auth/routes";
 import users from "../../services/user/routes";
 import forgotPassword from "../../services/forgot-password/routes";
@@ -26,8 +24,6 @@ export default () => {
   verify_resetP_token(router);
 
   /** Protected routes */
-  router.use(authenticator); /** Authorization middleware */
-
   users(router);
   shipment_auth(router);
   checkout_auth(router);

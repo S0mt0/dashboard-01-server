@@ -22,7 +22,7 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
   };
 
   public addDoc = async (
-    data: D,
+    data: Partial<D>,
     query: FilterQuery<D>,
     message?: string
   ): Promise<D> => {
@@ -34,7 +34,6 @@ export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
         status.CONFLICT
       );
     }
-
     const doc = await this.model.create(data);
 
     this.document = doc.toObject();

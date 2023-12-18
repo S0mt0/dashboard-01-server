@@ -1,0 +1,44 @@
+{
+  "trackingId": "123456",
+  "origin": {
+    "address": {
+      "addressLocality": "Origin Locality"
+    }
+  },
+  "destination": {
+    "address": {
+      "addressLocality": "Destination Locality"
+    }
+  },
+  "status": {
+    "timestamp": "2023-03-13T04:53:53Z",
+    "location": {
+      "address": {
+        "addressLocality": "Current Locality"
+      }
+    },
+    "status": "on hold",
+    "description": "Shipment Description",
+    "bill": 123456
+  },
+  "events": [
+    {
+      "timestamp": "2023-03-13T04:53:53Z",
+      "location": {
+        "address": {
+          "addressLocality": "Event Locality 2"
+        }
+      },
+      "description": "Event Description 2"
+    },
+    {
+      "timestamp": "2023-03-13T04:53:53Z",
+      "location": {
+        "address": {
+          "addressLocality": "Event Locality 2"
+        }
+      },
+      "description": "Event Description 2"
+    }
+  ]
+}

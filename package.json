@@ -69,7 +69,6 @@
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
     "eslint": "^8.55.0",
-    "eslint-config-google": "^0.14.0",
     "express-rate-limit": "^7.1.5",
     "nodemon": "^2.0.22",
     "prettier": "^3.0.3",

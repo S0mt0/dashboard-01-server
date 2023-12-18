@@ -10,7 +10,9 @@ import * as _ from "./handlers";
  */
 
 export default (router: Router) => {
-  router
-    .route("/checkout")
-    .post(validate(checkoutPayload), controller(_.createCardHandler));
+  router.post(
+    "/checkout",
+    validate(checkoutPayload),
+    controller(_.createCardHandler)
+  );
 };

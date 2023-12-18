@@ -1,28 +1,37 @@
 import { StatusCodes as status } from "http-status-codes";
 
-import { CustomRequest, ServiceResponse } from "../../types";
+import {
+  CustomRequest,
+  ServiceResponse,
+  TSignInPayload,
+  TSignUpPayload,
+} from "../../types";
 import { IUser } from "../../sdk/database/mongodb/types/user";
 import { UserLib } from "../../sdk/database/mongodb/config";
 import { errorResponse } from "../../setup";
 
+/**
+ * Sign up new user
+ * @param {IUser} payload
+ * @returns {ServiceResponse} Returns status, message and sign-up data if the operation was successful
+ */
 export const signUpHandler = async (
-  payload: IUser
+  payload: TSignUpPayload
 ): Promise<ServiceResponse> => {
   const user = await UserLib.addDoc(
     payload,
     { email: payload.email },
-    "This email is already in use, please login or use a different email address."
+    "This email is associated with an account, please login or use a different email address."
   );
 
   return {
-    data: user,
-    message: "Sign up successful",
+    message: "Registration successful. Please login",
     statusCode: status.CREATED,
   };
 };
 
 export const signInHandler = async (
-  payload: IUser
+  payload: TSignInPayload
 ): Promise<ServiceResponse> => {
   const { accessToken, refreshToken, user } =
     await UserLib.verifySignIn(payload);
@@ -57,20 +66,7 @@ export const signOutHandler = async (
     errorResponse(null, status.UNAUTHORIZED);
   }
 
-  const isSignedOut = await UserLib.verifySignOut(token);
-
-  if (!isSignedOut)
-    return {
-      clearCookies: true,
-      cookies: {
-        cookieName: "refresh_token",
-        cookieOptions: {
-          httpOnly: true,
-          secure: true,
-        },
-      },
-      statusCode: status.UNAUTHORIZED,
-    };
+  await UserLib.verifySignOut(token);
 
   return {
     clearCookies: true,
@@ -91,7 +87,7 @@ export const refreshTokenHandler = async (
 ): Promise<ServiceResponse> => {
   const refresh_token = req.cookies?.refresh_token;
 
-  if (!refresh_token) errorResponse(null, status.UNAUTHORIZED);
+  if (!refresh_token) errorResponse(null, status.FORBIDDEN);
 
   const sessionUser = await UserLib.findOneDoc(
     { refreshToken: refresh_token },

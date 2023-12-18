@@ -9,7 +9,11 @@ import * as _ from "./handlers";
  */
 
 export default (router: Router) => {
-  router
-    .route("/verify-token")
-    .post(validate(tokenPayload), controller(_.verifyTokenHandler));
+  router.post(
+    "/verify-token",
+    validate(tokenPayload),
+    controller(_.verifyTokenHandler)
+  );
+
+  router.get("/resend-otp", controller(_.resendTokenHandler));
 };

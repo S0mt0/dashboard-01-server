@@ -9,12 +9,11 @@ import {
   TProfileUpdateRequestPayload,
 } from "../../types";
 import { errorResponse } from "../../setup";
-import { cloudinary } from "../../setup/config/cloudinary";
+import { cloudinary } from "../../setup/config";
 
 /**
  * Function used to retrieve a single user data, using the provided user Id.
  * @function
- * @param payload
  * @param req
  * @returns User data
  */

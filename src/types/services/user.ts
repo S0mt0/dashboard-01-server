@@ -21,6 +21,12 @@ export type TProfileUpdateRequestPayload = {
   avatar?: Avatar;
 };
 
+export type TSignUpPayload = {
+  username?: string;
+  email?: string;
+  password: string;
+};
+
 export type TPasswordResetRequestPayload = {
   email: string;
 };
@@ -32,4 +38,9 @@ export type TPasswordResetPayload = {
 
 export type TResetTokenPayload = {
   otp: string | number;
+};
+
+export type TSignInPayload = {
+  email: string;
+  password: string;
 };
