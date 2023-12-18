@@ -16,7 +16,7 @@ export const resetUserPasswordRequestHandler = async (
   payload: TPasswordResetRequestPayload,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
-  const user = await UserLib.findOneDoc({ email: payload.email });
+  const user = await UserLib.findOneDoc(payload);
   if (!user) {
     errorResponse({
       message:
@@ -49,9 +49,13 @@ export const resetUserPasswordRequestHandler = async (
     text,
   });
 
-  const reset_token = Jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
+  const reset_token = Jwt.sign(
+    { email: user.email },
+    process.env.JWT_ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
 
   /** Obscure email */
   const obscuredEmail = toolkit.obscureEmail(user.email);
@@ -88,7 +92,7 @@ export const resetPasswordHandler = async (
 
   const authUser = Jwt.verify(
     reset_token,
-    process.env.JWT_SECRET
+    process.env.JWT_ACCESS_TOKEN_SECRET
   ) as Jwt.JwtPayload;
 
   const sessionUser = await UserLib.findOneDoc({ email: authUser.email });
@@ -118,6 +122,7 @@ export const resetPasswordHandler = async (
   return {
     message: "Password updated successfully",
     data: {
+      user: sessionUser,
       accessToken,
     },
     setCookies: true,

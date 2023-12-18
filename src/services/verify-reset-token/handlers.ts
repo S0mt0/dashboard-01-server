@@ -27,7 +27,7 @@ export const verifyTokenHandler = async (
 
   const decoded = Jwt.verify(
     reset_token,
-    process.env.JWT_SECRET
+    process.env.JWT_ACCESS_TOKEN_SECRET
   ) as Jwt.JwtPayload;
 
   const sessionUser = await UserLib.findOneDoc({
@@ -62,7 +62,7 @@ export const verifyTokenHandler = async (
 
   const reset_access_token = Jwt.sign(
     { userID: sessionUser._id },
-    process.env.JWT_SECRET,
+    process.env.JWT_ACCESS_TOKEN_SECRET,
     {
       expiresIn: "1d",
     }
@@ -93,7 +93,7 @@ export const resendTokenHandler = async (
 
   const decoded = Jwt.verify(
     reset_token,
-    process.env.JWT_SECRET
+    process.env.JWT_ACCESS_TOKEN_SECRET
   ) as Jwt.JwtPayload;
 
   const sessionUser = await UserLib.findOneDoc({

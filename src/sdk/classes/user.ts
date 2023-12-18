@@ -105,12 +105,16 @@ export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
     return await bcrypt.compare(data.password, userDoc.password);
   };
 
-  public verifyToken = (token: string): string | jwt.JwtPayload => {
-    return jwt.verify(token, process.env.JWT_SECRET);
+  public verifyAccessToken = (token: string): string | jwt.JwtPayload => {
+    return jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET);
+  };
+
+  public verifyRefreshToken = (token: string): string | jwt.JwtPayload => {
+    return jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET);
   };
 
   public verifySignOut = async (token: string): Promise<boolean> => {
-    const tokenPayload = this.verifyToken(token) as jwt.JwtPayload;
+    const tokenPayload = this.verifyRefreshToken(token) as jwt.JwtPayload;
 
     const sessionUser = await this.findOneDoc({ _id: tokenPayload?.userID });
 
