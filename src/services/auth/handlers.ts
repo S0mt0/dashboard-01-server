@@ -51,6 +51,7 @@ export const signInHandler = async (
         maxAge: 24 * 60 * 60 * 1000,
         secure: true,
         sameSite: "none",
+        // path: "/api/v1/auth/sign-in",
       },
     },
   };
