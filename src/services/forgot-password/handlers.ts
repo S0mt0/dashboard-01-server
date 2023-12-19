@@ -38,14 +38,14 @@ export const resetUserPasswordRequestHandler = async (
   } = mail.pass.passwordResetMailContent({
     username: user.username,
     token: code,
-    platform: "My-Dashboard",
+    platform: "MyDashboard",
   });
 
   // Send a mail to the user containing the generated token
   await mail.sendNodemailer({
     html,
     to: user.email,
-    subject: "PASSWORD RESET",
+    subject: `[${user.otp.code}] Reset your password`,
     text,
   });
 
@@ -95,7 +95,8 @@ export const resetPasswordHandler = async (
     process.env.JWT_ACCESS_TOKEN_SECRET
   ) as Jwt.JwtPayload;
 
-  const sessionUser = await UserLib.findOneDoc({ email: authUser.email });
+  const sessionUser = await UserLib.findOneDoc({ _id: authUser?.userID });
+  console.log("[NEW PASSWORD USER]: ", sessionUser);
 
   // Update user password with the new password
   sessionUser.password = payload.newPassword;

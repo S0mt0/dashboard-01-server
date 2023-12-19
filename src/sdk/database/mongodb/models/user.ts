@@ -61,13 +61,13 @@ UserSchema.pre("save", async function (next) {
 });
 
 // Exclude the entire 'otp' property by default
-UserSchema.set("toObject", {
-  transform: function (doc, ret) {
-    delete ret.otp;
-    return ret;
-  },
-  versionKey: false,
-});
+// UserSchema.set("toObject", {
+//   transform: function (doc, ret) {
+//     delete ret.otp;
+//     return ret;
+//   },
+//   versionKey: false,
+// });
 
 UserSchema.methods.comparePassword = async function (
   candidatePassword: string

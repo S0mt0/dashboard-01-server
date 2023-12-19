@@ -44,7 +44,7 @@ const startServer = async () => {
     );
   } catch (error) {
     console.log(
-      "An error occured while connecting to database, please try again."
+      "An error occured while trying to connect to the database, please try again."
     );
   }
 };

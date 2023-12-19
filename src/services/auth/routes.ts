@@ -24,7 +24,7 @@ export default (router: Router) => {
   );
 
   // logout route
-  router.post("/auth/sign-out", controller(auth.signOutHandler));
+  router.get("/auth/sign-out", controller(auth.signOutHandler));
 
   // refresh-token route
   router.get("/auth/refresh-token", controller(auth.refreshTokenHandler));

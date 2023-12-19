@@ -6,7 +6,6 @@ import {
   TSignInPayload,
   TSignUpPayload,
 } from "../../types";
-import { IUser } from "../../sdk/database/mongodb/types/user";
 import { UserLib } from "../../sdk/database/mongodb/config";
 import { errorResponse } from "../../setup";
 
@@ -18,7 +17,7 @@ import { errorResponse } from "../../setup";
 export const signUpHandler = async (
   payload: TSignUpPayload
 ): Promise<ServiceResponse> => {
-  const user = await UserLib.addDoc(
+  await UserLib.addDoc(
     payload,
     { email: payload.email },
     "This email is associated with an account, please login or use a different email address."
@@ -51,7 +50,6 @@ export const signInHandler = async (
         maxAge: 24 * 60 * 60 * 1000,
         secure: true,
         sameSite: "none",
-        // path: "/api/v1/auth/sign-in",
       },
     },
   };
@@ -90,13 +88,10 @@ export const refreshTokenHandler = async (
 
   if (!refresh_token) errorResponse(null, status.FORBIDDEN);
 
-  const sessionUser = await UserLib.findOneDoc(
-    { refreshToken: refresh_token },
-    "refreshToken"
-  );
+  const sessionUser = await UserLib.findOneDoc({ refreshToken: refresh_token });
   if (!sessionUser) errorResponse(null, status.FORBIDDEN);
 
   const accessToken = await UserLib.getAccessToken(sessionUser);
 
-  return { data: { accessToken }, statusCode: status.OK };
+  return { data: { user: sessionUser, accessToken }, statusCode: status.OK };
 };

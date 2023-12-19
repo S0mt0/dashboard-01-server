@@ -19,10 +19,10 @@ export const verifyTokenHandler = async (
   payload: TResetTokenPayload,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
-  const reset_token = req.cookies?.reset_token;
+  const reset_token = req.cookies.reset_token;
 
   if (!reset_token) {
-    errorResponse({ message: "No or expired session" }, status.FORBIDDEN);
+    errorResponse({ message: "Session expired" }, status.FORBIDDEN);
   }
 
   const decoded = Jwt.verify(
@@ -43,9 +43,11 @@ export const verifyTokenHandler = async (
     );
   }
 
-  if (sessionUser.otp.code !== payload.otp) {
+  console.log("[SESSION USER]: ", sessionUser);
+
+  if (+sessionUser.otp.code !== +payload.otp) {
     errorResponse({
-      message: "That code was not a match. Try again.",
+      message: "That code was not a match. Try again",
     });
   }
 
@@ -88,7 +90,7 @@ export const resendTokenHandler = async (
   const reset_token = req.cookies?.reset_token;
 
   if (!reset_token) {
-    errorResponse({ message: "No or expired session" }, status.FORBIDDEN);
+    errorResponse({ message: "Session expired" }, status.FORBIDDEN);
   }
 
   const decoded = Jwt.verify(
@@ -123,7 +125,7 @@ export const resendTokenHandler = async (
   } = mail.pass.passwordResetMailContent({
     username: sessionUser.username,
     token: code,
-    platform: "My-Dashboard",
+    platform: "MyDashboard",
   });
 
   // Send a mail to the user containing the generated token
