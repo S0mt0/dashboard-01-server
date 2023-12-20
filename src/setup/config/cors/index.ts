@@ -19,7 +19,7 @@ const devOrigin = [
   "[::1]:3000",
 ];
 
-const allowedOrigin =
+const allowedOrigins =
   process.env.NODE_ENV === "production" ? prodOrigin : devOrigin;
 
 /**
@@ -37,9 +37,9 @@ export const corsOptions: CorsOptions = {
 
   credentials: true,
   optionsSuccessStatus: 200,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   origin: (origin, callback) => {
-    if (devOrigin.indexOf(origin) !== -1 || !origin) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS..."));
