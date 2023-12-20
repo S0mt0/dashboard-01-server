@@ -1,6 +1,9 @@
 import { CorsOptions } from "cors";
 
-const prodOrigin = [""];
+const prodOrigin = [
+  "https://afrolay.vercel.app",
+  "https://www.afrolay.vercel.app",
+];
 
 const devOrigin = [
   "http://localhost:3001",
