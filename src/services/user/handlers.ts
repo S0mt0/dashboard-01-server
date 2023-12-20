@@ -116,7 +116,7 @@ export const updateUserHandler = async (
   return {
     statusCode: status.OK,
     data: updatedUser,
-    message: "Profile updated",
+    message: "Profile updated successfully",
   };
 };
 
