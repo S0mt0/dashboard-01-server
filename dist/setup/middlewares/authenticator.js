@@ -28,6 +28,11 @@ const authenticator = (req, res, next) => {
     }
     const accessToken = authHeader.split(" ")[1];
     const sessionUser = jsonwebtoken_1.default.verify(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET);
+    if (!sessionUser) {
+        (0, setup_1.errorResponse)({
+            message: "Your session expired. Please re-login or refresh your browser",
+        }, http_status_codes_1.StatusCodes.BAD_REQUEST);
+    }
     req.user = { userID: sessionUser === null || sessionUser === void 0 ? void 0 : sessionUser.userID };
     next();
 };

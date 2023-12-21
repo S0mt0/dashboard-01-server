@@ -38,6 +38,16 @@ export const authenticator = (
     process.env.JWT_ACCESS_TOKEN_SECRET
   ) as jwt.JwtPayload;
 
+  if (!sessionUser) {
+    errorResponse(
+      {
+        message:
+          "Your session expired. Please re-login or refresh your browser",
+      },
+      status.BAD_REQUEST
+    );
+  }
+
   req.user = { userID: sessionUser?.userID };
 
   next();
