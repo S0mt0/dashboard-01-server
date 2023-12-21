@@ -35,7 +35,7 @@ export const authenticator = (
 
   const sessionUser = jwt.verify(
     accessToken,
-    process.env.JWT_SECRET
+    process.env.JWT_ACCESS_TOKEN_SECRET
   ) as jwt.JwtPayload;
 
   req.user = { userID: sessionUser?.userID };

@@ -1,11 +1,19 @@
 import Joi from "joi";
 
 export const ProfileUpdateRequestPayload = {
-  email: Joi.string().email(),
-  username: Joi.string(),
+  email: Joi.string().email().required(),
+  username: Joi.string().required(),
   oldPassword: Joi.string(),
-  newPassword: Joi.string().required(),
-  confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
+  newPassword: Joi.string().when("oldPassword", {
+    is: Joi.exist(),
+    then: Joi.string().required(),
+    otherwise: Joi.string(),
+  }),
+  confirmPassword: Joi.string().when("newPassword", {
+    is: Joi.exist(),
+    then: Joi.string().valid(Joi.ref("newPassword")).required(),
+    otherwise: Joi.string(),
+  }),
 };
 
 export const userFilePayload = {

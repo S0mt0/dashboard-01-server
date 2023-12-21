@@ -34,7 +34,8 @@ const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
 
     avatar: {
       type: String,
-      default: "https://avatars.githubusercontent.com/u/15474343?v=4",
+      default:
+        "https://cdn.pixabay.com/photo/2018/11/13/22/01/avatar-3814081_960_720.png",
     },
 
     otp: {

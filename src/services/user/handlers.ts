@@ -45,6 +45,10 @@ export const updateUserHandler = async (
   const sessionUserId = req.user.userID;
   const sessionUser = await UserLib.findOneDoc({ _id: sessionUserId });
 
+  console.log("[UPDATE PAYLOAD]: ", payload);
+  console.log("[BEARER USER ID]: ", sessionUserId);
+  console.log("[SESSION USER]: ", sessionUser);
+
   // First handle password reset if user provided new password
   if (payload.oldPassword && payload.newPassword) {
     const isAMatch = await bcrypt.compare(
