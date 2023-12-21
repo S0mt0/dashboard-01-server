@@ -6,11 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userFilePayload = exports.ProfileUpdateRequestPayload = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.ProfileUpdateRequestPayload = {
-    email: joi_1.default.string().email(),
-    username: joi_1.default.string(),
+    email: joi_1.default.string().email().required(),
+    username: joi_1.default.string().required(),
     oldPassword: joi_1.default.string(),
-    newPassword: joi_1.default.string().required(),
-    confirmPassword: joi_1.default.string().valid(joi_1.default.ref("password")).required(),
+    newPassword: joi_1.default.string().when("oldPassword", {
+        is: joi_1.default.exist(),
+        then: joi_1.default.string().required(),
+        otherwise: joi_1.default.string(),
+    }),
+    confirmPassword: joi_1.default.string().when("newPassword", {
+        is: joi_1.default.exist(),
+        then: joi_1.default.string().valid(joi_1.default.ref("newPassword")).required(),
+        otherwise: joi_1.default.string(),
+    }),
 };
 exports.userFilePayload = {
     avatar: joi_1.default.object({

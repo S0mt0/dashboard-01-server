@@ -27,7 +27,7 @@ const authenticator = (req, res, next) => {
         (0, setup_1.errorResponse)({ message: "No access token provided" }, http_status_codes_1.StatusCodes.FORBIDDEN);
     }
     const accessToken = authHeader.split(" ")[1];
-    const sessionUser = jsonwebtoken_1.default.verify(accessToken, process.env.JWT_SECRET);
+    const sessionUser = jsonwebtoken_1.default.verify(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET);
     req.user = { userID: sessionUser === null || sessionUser === void 0 ? void 0 : sessionUser.userID };
     next();
 };
