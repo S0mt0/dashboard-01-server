@@ -4,8 +4,8 @@ exports.corsOptions = void 0;
 const prodOrigin = [
     "https://afrolay.vercel.app",
     "https://www.afrolay.vercel.app",
-    "https://afrolay.netlify.app/",
-    "https://www.afrolay.netlify.app/",
+    "https://afrolay.netlify.app",
+    "https://www.afrolay.netlify.app",
 ];
 const devOrigin = [
     "http://localhost:3000",
