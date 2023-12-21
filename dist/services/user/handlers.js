@@ -31,27 +31,26 @@ exports.getUserDataHandler = getUserDataHandler;
  * @return {*}  {Promise<ServiceResponse>}
  */
 const updateUserHandler = async (payload, req) => {
-    var _a;
+    var _a, _b;
     const sessionUserId = req.user.userID;
-    const sessionUser = await config_1.UserLib.findOneDoc({ _id: sessionUserId });
-    console.log("[UPDATE PAYLOAD]: ", payload);
-    console.log("[BEARER USER ID]: ", sessionUserId);
-    console.log("[SESSION USER]: ", sessionUser);
+    const sessionUser = await config_1.UserLib.findOneDoc({ _id: sessionUserId }, "+password");
     // First handle password reset if user provided new password
     if (payload.oldPassword && payload.newPassword) {
         const isAMatch = await bcrypt_1.default.compare(payload.oldPassword, sessionUser.password);
         if (!isAMatch) {
-            (0, setup_1.errorResponse)({ message: "Old password is incorrect" }, http_status_codes_1.StatusCodes.BAD_REQUEST);
+            (0, setup_1.errorResponse)({ message: "The current password you provided is not correct" }, http_status_codes_1.StatusCodes.BAD_REQUEST);
         }
     }
     // Handle avatar if provided by user
     const parts = (_a = sessionUser.avatar) === null || _a === void 0 ? void 0 : _a.split("/");
-    const fileName = parts[parts.length - 1].split(".")[0];
+    const fileName = parts[(parts === null || parts === void 0 ? void 0 : parts.length) - 1].split(".")[0];
     const old_public_id = `Afrolay/${fileName}`;
     // TODO: Make this to a utility function.
     let avatar_url;
     let uploadResponse;
-    if (payload.avatar && Object.keys(payload.avatar).length) {
+    if (payload.avatar &&
+        typeof payload.avatar !== "string" &&
+        ((_b = Object.keys(payload.avatar)) === null || _b === void 0 ? void 0 : _b.length)) {
         const { size } = payload.avatar;
         const id = Date.now();
         const public_id = `IMG_${id}_${size}`;
@@ -85,7 +84,7 @@ const updateUserHandler = async (payload, req) => {
     });
     return {
         statusCode: http_status_codes_1.StatusCodes.OK,
-        data: updatedUser,
+        data: { user: updatedUser },
         message: "Profile updated successfully",
     };
 };

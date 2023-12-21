@@ -43,11 +43,10 @@ export const updateUserHandler = async (
   req: CustomRequest
 ): Promise<ServiceResponse> => {
   const sessionUserId = req.user.userID;
-  const sessionUser = await UserLib.findOneDoc({ _id: sessionUserId });
-
-  console.log("[UPDATE PAYLOAD]: ", payload);
-  console.log("[BEARER USER ID]: ", sessionUserId);
-  console.log("[SESSION USER]: ", sessionUser);
+  const sessionUser = await UserLib.findOneDoc(
+    { _id: sessionUserId },
+    "+password"
+  );
 
   // First handle password reset if user provided new password
   if (payload.oldPassword && payload.newPassword) {
@@ -58,7 +57,7 @@ export const updateUserHandler = async (
 
     if (!isAMatch) {
       errorResponse(
-        { message: "Old password is incorrect" },
+        { message: "The current password you provided is not correct" },
         status.BAD_REQUEST
       );
     }
@@ -66,14 +65,18 @@ export const updateUserHandler = async (
 
   // Handle avatar if provided by user
   const parts = sessionUser.avatar?.split("/");
-  const fileName = parts[parts.length - 1].split(".")[0];
+  const fileName = parts[parts?.length - 1].split(".")[0];
   const old_public_id = `Afrolay/${fileName}`;
 
   // TODO: Make this to a utility function.
   let avatar_url;
   let uploadResponse: UploadApiResponse;
 
-  if (payload.avatar && Object.keys(payload.avatar).length) {
+  if (
+    payload.avatar &&
+    typeof payload.avatar !== "string" &&
+    Object.keys(payload.avatar)?.length
+  ) {
     const { size } = payload.avatar;
     const id = Date.now();
 
@@ -119,7 +122,7 @@ export const updateUserHandler = async (
 
   return {
     statusCode: status.OK,
-    data: updatedUser,
+    data: { user: updatedUser },
     message: "Profile updated successfully",
   };
 };
