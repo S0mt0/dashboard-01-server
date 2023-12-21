@@ -6,7 +6,7 @@ type TEvent = {
 
   eventId: string;
 
-  timestamp: string;
+  timestamp: Date;
 
   location: {
     address: {
@@ -47,7 +47,7 @@ export type TShipmentPayload = {
   };
 
   status: {
-    timestamp: string;
+    timestamp: Date;
 
     location: {
       address: {

@@ -3,7 +3,7 @@ import { Document, Model, Types } from "mongoose";
 // single event
 type IEvent = {
   eventId: string;
-  timestamp: string;
+  timestamp: Date;
   location: {
     address: {
       addressLocality: string;
@@ -41,7 +41,7 @@ export interface IShipment {
   };
 
   status: {
-    timestamp: string;
+    timestamp: Date;
 
     location: {
       address: {
