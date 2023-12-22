@@ -35,14 +35,12 @@ export type TShipmentPayload = {
   origin: {
     address: {
       addressLocality: string;
-      label: string;
     };
   };
 
   destination: {
     address: {
       addressLocality: string;
-      label: string;
     };
   };
 

@@ -26,14 +26,12 @@ exports.shipmentPayload = {
     origin: joi_1.default.object({
         address: joi_1.default.object({
             addressLocality: joi_1.default.string().required(),
-            label: joi_1.default.string().required(),
-        }).required(),
+        }),
     }).required(),
     destination: joi_1.default.object({
         address: joi_1.default.object({
             addressLocality: joi_1.default.string().required(),
-            label: joi_1.default.string().required(),
-        }).required(),
+        }),
     }).required(),
     status: joi_1.default.object({
         timestamp: joi_1.default.string().required(),

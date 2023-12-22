@@ -8,7 +8,7 @@ const joi_1 = __importDefault(require("joi"));
 const http_status_codes_1 = require("http-status-codes");
 const __1 = require("..");
 const validate = (fields, fileFields) => (req, _, next) => {
-    const schema = joi_1.default.object().keys(fields).required();
+    const schema = joi_1.default.object().keys(fields).required().unknown();
     const payload = req.body;
     const { error, value } = schema.validate(payload, {
         abortEarly: false,

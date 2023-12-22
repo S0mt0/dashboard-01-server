@@ -34,12 +34,12 @@ const _ = __importStar(require("./handlers"));
 exports.default = (router) => {
     // auth route for shipment actions
     router
-        .route("/")
+        .route("/shipment")
         .delete(setup_1.authenticator, (0, setup_1.controller)(_.deleteAllShipmentHandler))
         .get(setup_1.authenticator, (0, setup_1.controller)(_.getAllShipmentHandler))
         .post(setup_1.authenticator, (0, setup_1.validate)(validation_schema_1.shipmentPayload), (0, setup_1.controller)(_.createShipmentHandler));
     router
-        .route("/:trackingId")
+        .route("/shipment/:trackingId")
         .get(setup_1.authenticator, (0, setup_1.controller)(_.getSingleShipmentHandler))
         .patch(setup_1.authenticator, (0, setup_1.validate)(validation_schema_1.shipmentPayload), (0, setup_1.controller)(_.updateSingleShipmentHandler))
         .delete(setup_1.authenticator, (0, setup_1.controller)(_.deleteSingleShipmentHandler));

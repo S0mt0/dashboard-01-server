@@ -48,10 +48,6 @@ const ShipmentSchema = new mongoose.Schema<IShipment, ShipmentModel>(
           required: [true, "Provide an originating address for this shipment"],
           trim: true,
         },
-        label: {
-          type: String,
-          default: "Origin Service Area",
-        },
       },
     },
 
@@ -61,10 +57,6 @@ const ShipmentSchema = new mongoose.Schema<IShipment, ShipmentModel>(
           type: String,
           required: [true, "Provide a destination address for this shipment"],
           trim: true,
-        },
-        label: {
-          type: String,
-          default: "Destination Service Area",
         },
       },
     },

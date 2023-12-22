@@ -13,7 +13,7 @@ import * as _ from "./handlers";
 export default (router: Router) => {
   // auth route for shipment actions
   router
-    .route("/")
+    .route("/shipment")
     .delete(authenticator, controller(_.deleteAllShipmentHandler))
     .get(authenticator, controller(_.getAllShipmentHandler))
     .post(
@@ -23,7 +23,7 @@ export default (router: Router) => {
     );
 
   router
-    .route("/:trackingId")
+    .route("/shipment/:trackingId")
     .get(authenticator, controller(_.getSingleShipmentHandler))
     .patch(
       authenticator,

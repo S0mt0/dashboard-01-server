@@ -88,7 +88,7 @@ export const refreshTokenHandler = async (
 
   if (!refresh_token) errorResponse(null, status.FORBIDDEN);
 
-  const sessionUser = await UserLib.findOneDoc({ refreshToken: refresh_token });
+  const sessionUser = await UserLib.findOneDoc({ refreshToken: refresh_token },"-otp");
   if (!sessionUser) errorResponse(null, status.FORBIDDEN);
 
   const accessToken = await UserLib.getAccessToken(sessionUser);

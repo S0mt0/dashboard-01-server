@@ -33,7 +33,7 @@ const getSingleShipmentHandler = async (payload, req) => {
     });
     if (!shipment)
         (0, setup_1.errorResponse)(null, http_status_codes_1.StatusCodes.NOT_FOUND);
-    return { data: shipment };
+    return { data: { shipment } };
 };
 exports.getSingleShipmentHandler = getSingleShipmentHandler;
 const getAllShipmentHandler = async (payload, req) => {

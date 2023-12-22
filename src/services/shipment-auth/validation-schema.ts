@@ -24,15 +24,13 @@ export const shipmentPayload = {
   origin: Joi.object({
     address: Joi.object({
       addressLocality: Joi.string().required(),
-      label: Joi.string().required(),
-    }).required(),
+    }),
   }).required(),
 
   destination: Joi.object({
     address: Joi.object({
       addressLocality: Joi.string().required(),
-      label: Joi.string().required(),
-    }).required(),
+    }),
   }).required(),
 
   status: Joi.object({

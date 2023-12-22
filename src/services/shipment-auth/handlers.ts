@@ -56,7 +56,7 @@ export const getSingleShipmentHandler = async (
 
   if (!shipment) errorResponse(null, status.NOT_FOUND);
 
-  return { data: shipment };
+  return { data: { shipment } };
 };
 
 export const getAllShipmentHandler = async (

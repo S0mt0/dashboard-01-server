@@ -64,7 +64,7 @@ const refreshTokenHandler = async (payload, req) => {
     const refresh_token = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.refresh_token;
     if (!refresh_token)
         (0, setup_1.errorResponse)(null, http_status_codes_1.StatusCodes.FORBIDDEN);
-    const sessionUser = await config_1.UserLib.findOneDoc({ refreshToken: refresh_token });
+    const sessionUser = await config_1.UserLib.findOneDoc({ refreshToken: refresh_token }, "-otp");
     if (!sessionUser)
         (0, setup_1.errorResponse)(null, http_status_codes_1.StatusCodes.FORBIDDEN);
     const accessToken = await config_1.UserLib.getAccessToken(sessionUser);
