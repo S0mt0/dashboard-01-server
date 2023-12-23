@@ -46,7 +46,15 @@ export const shipmentPayload = {
       .required(),
 
     description: Joi.string().required(),
-    bill: Joi.number(),
+    bill: Joi.number()
+      .when("status", {
+        is: "seized",
+        then: Joi.number().required(),
+      })
+      .when("status", {
+        not: "seized",
+        then: Joi.optional(),
+      }),
   }).required(),
   events: Joi.array().items(eventSchema).required(),
 };

@@ -6,6 +6,7 @@ const setup_1 = require("../../setup");
 const config_1 = require("../../sdk/database/mongodb/config");
 const createShipmentHandler = async (payload, req) => {
     const { userID } = req.user;
+    console.log("[SHIPMENT REQUEST]: ", payload);
     const tempShipment = payload;
     // Attach Shipment to unique user in session
     tempShipment.createdBy = userID;
@@ -70,7 +71,7 @@ const deleteSingleShipmentHandler = async (payload, req) => {
     if (!isDeleted) {
         (0, setup_1.errorResponse)({ message: "No shipment found" }, http_status_codes_1.StatusCodes.NOT_FOUND);
     }
-    return { statusCode: http_status_codes_1.StatusCodes.OK };
+    return { statusCode: http_status_codes_1.StatusCodes.OK, message: "Shipment deleted successfully" };
 };
 exports.deleteSingleShipmentHandler = deleteSingleShipmentHandler;
 const deleteAllShipmentHandler = async (payload, req) => {

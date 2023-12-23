@@ -11,6 +11,7 @@ export const createShipmentHandler = async (
   req: CustomRequest
 ): Promise<ServiceResponse> => {
   const { userID } = req.user;
+  console.log("[SHIPMENT REQUEST]: ", payload);
 
   const tempShipment = payload as ShipmentDoc;
 
@@ -117,7 +118,7 @@ export const deleteSingleShipmentHandler = async (
     errorResponse({ message: "No shipment found" }, status.NOT_FOUND);
   }
 
-  return { statusCode: status.OK };
+  return { statusCode: status.OK, message: "Shipment deleted successfully" };
 };
 
 export const deleteAllShipmentHandler = async (
