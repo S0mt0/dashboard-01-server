@@ -44,15 +44,7 @@ exports.shipmentPayload = {
             .valid("pending", "seized", "delivered", "shipping")
             .required(),
         description: joi_1.default.string().required(),
-        bill: joi_1.default.number()
-            .when("status", {
-            is: "seized",
-            then: joi_1.default.number().required(),
-        })
-            .when("status", {
-            not: "seized",
-            then: joi_1.default.optional(),
-        }),
+        bill: joi_1.default.string().allow(""),
     }).required(),
     events: joi_1.default.array().items(eventSchema).required(),
 };
