@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { validate, controller } from "../../setup";
+import { controller } from "../../setup";
 import * as _ from "./handlers";
 
 /**
@@ -10,5 +10,5 @@ import * as _ from "./handlers";
  */
 
 export default (router: Router) => {
-  router.get("/tracking", controller(_.getSingleShipmentHandler));
+  router.get("/shipment/tracking", controller(_.getSingleShipmentHandler));
 };

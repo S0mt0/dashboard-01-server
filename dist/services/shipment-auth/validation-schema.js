@@ -44,8 +44,10 @@ exports.shipmentPayload = {
             .valid("pending", "seized", "delivered", "shipping")
             .required(),
         description: joi_1.default.string().required(),
-        bill: joi_1.default.string().allow(""),
-    }).required(),
+        bill: joi_1.default.number(),
+    })
+        .required()
+        .unknown(true),
     events: joi_1.default.array().items(eventSchema).required(),
 };
 //# sourceMappingURL=validation-schema.js.map

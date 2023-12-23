@@ -6,6 +6,8 @@ const prodOrigin = [
     "https://www.afrolay.vercel.app",
     "https://afrolay.netlify.app",
     "https://www.afrolay.netlify.app",
+    "https://www.dhlimited.onrender.com",
+    "https://dhlimited.onrender.com",
 ];
 const devOrigin = [
     "http://localhost:3000",

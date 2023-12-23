@@ -31,6 +31,6 @@ const _ = __importStar(require("./handlers"));
  * @returns Routes
  */
 exports.default = (router) => {
-    router.get("/tracking", (0, setup_1.controller)(_.getSingleShipmentHandler));
+    router.get("/shipment/tracking", (0, setup_1.controller)(_.getSingleShipmentHandler));
 };
 //# sourceMappingURL=routes.js.map

@@ -11,7 +11,8 @@ const __1 = require("../");
  * @returns Server Response
  */
 const ErrorHandler = (err, req, res, next) => {
-    console.log("[API ERROR]: ", err, "TIMESTAMP: ", new Date().toLocaleTimeString());
+    process.env.NODE_ENV === "development" &&
+        console.log("[API ERROR]: ", err, "TIMESTAMP: ", new Date().toLocaleTimeString());
     if (err instanceof __1.CustomError) {
         return res.status(err.statusCode).json(Object.assign({ success: false }, err.data));
     }

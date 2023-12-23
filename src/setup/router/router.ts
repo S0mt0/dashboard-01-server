@@ -17,10 +17,10 @@ const router = Router();
  * @summary Router
  */
 export default () => {
-  authentication(router);
-  forgotPassword(router);
   shipment_public(router);
   checkout_public(router);
+  authentication(router);
+  forgotPassword(router);
   verify_resetP_token(router);
 
   /** Protected routes */

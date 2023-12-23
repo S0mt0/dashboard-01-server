@@ -16,12 +16,13 @@ export const ErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(
-    "[API ERROR]: ",
-    err,
-    "TIMESTAMP: ",
-    new Date().toLocaleTimeString()
-  );
+  process.env.NODE_ENV === "development" &&
+    console.log(
+      "[API ERROR]: ",
+      err,
+      "TIMESTAMP: ",
+      new Date().toLocaleTimeString()
+    );
 
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json({ success: false, ...err.data });

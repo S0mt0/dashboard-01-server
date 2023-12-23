@@ -11,7 +11,10 @@ const getSingleShipmentHandler = async (payload, req) => {
     }
     const shipment = await config_1.ShipmentLib.findOneDoc({ trackingId }, "-createdAt -updatedAt -__v -_id -createdBy -belongsTo");
     if (!shipment) {
-        (0, setup_1.errorResponse)({ message: "No shipment matches that tracking number" }, http_status_codes_1.StatusCodes.NOT_FOUND);
+        (0, setup_1.errorResponse)({
+            message: "No shipment matches that tracking number",
+            data: { trackingId },
+        }, http_status_codes_1.StatusCodes.NOT_FOUND);
     }
     return {
         data: { shipment },

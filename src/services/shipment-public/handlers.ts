@@ -24,7 +24,10 @@ export const getSingleShipmentHandler = async (
 
   if (!shipment) {
     errorResponse(
-      { message: "No shipment matches that tracking number" },
+      {
+        message: "No shipment matches that tracking number",
+        data: { trackingId },
+      },
       status.NOT_FOUND
     );
   }

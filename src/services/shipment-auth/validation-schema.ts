@@ -46,7 +46,9 @@ export const shipmentPayload = {
       .required(),
 
     description: Joi.string().required(),
-    bill: Joi.string().allow(""),
-  }).required(),
+    bill: Joi.number(),
+  })
+    .required()
+    .unknown(true),
   events: Joi.array().items(eventSchema).required(),
 };

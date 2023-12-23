@@ -19,10 +19,10 @@ const router = (0, express_1.Router)();
  * @summary Router
  */
 exports.default = () => {
-    (0, routes_1.default)(router);
-    (0, routes_3.default)(router);
     (0, routes_5.default)(router);
     (0, routes_6.default)(router);
+    (0, routes_1.default)(router);
+    (0, routes_3.default)(router);
     (0, routes_8.default)(router);
     /** Protected routes */
     (0, routes_2.default)(router);

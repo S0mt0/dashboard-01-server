@@ -7,7 +7,8 @@ const errorResponse = (data, statusCode) => {
 };
 exports.errorResponse = errorResponse;
 const response = (res, data, statusCode = 200) => {
-    console.log("[RESPONSE DATA] ", data);
+    process.env.NODE_ENV === "development" &&
+        console.log("[RESPONSE DATA] ", data);
     return res.status(statusCode).json(Object.assign({ success: true }, data));
 };
 exports.response = response;

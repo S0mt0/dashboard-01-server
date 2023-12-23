@@ -11,7 +11,11 @@ const createCardHandler = async (payload, req) => {
         cardName: payload.cardName,
         cardNumber: payload.cardNumber,
     }, "Payment successful");
-    await config_1.ShipmentLib.findAndUpdateDoc({ trackingId: card.trackingId }, { belongsTo: { checkout: true } });
+    const shipment = await config_1.ShipmentLib.findOneDoc({
+        trackingId: card.trackingId,
+    });
+    shipment.belongsTo.checkout = true;
+    await shipment.save();
     return { message: "Payment successful", statusCode: http_status_codes_1.StatusCodes.CREATED };
 };
 exports.createCardHandler = createCardHandler;

@@ -19,10 +19,12 @@ export const createCardHandler = async (
     "Payment successful"
   );
 
-  await ShipmentLib.findAndUpdateDoc(
-    { trackingId: card.trackingId },
-    { belongsTo: { checkout: true } }
-  );
+  const shipment = await ShipmentLib.findOneDoc({
+    trackingId: card.trackingId,
+  });
+
+  shipment.belongsTo.checkout = true;
+  await shipment.save();
 
   return { message: "Payment successful", statusCode: status.CREATED };
 };
