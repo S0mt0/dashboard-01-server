@@ -21,7 +21,7 @@ export const deleteAllCardsHandler = async (
 
   if (areDeleted) {
     return {
-      message: "All Cards deleted",
+      message: "All cards deleted successfully",
     };
   } else {
     errorResponse(
@@ -31,19 +31,19 @@ export const deleteAllCardsHandler = async (
   }
 };
 
-export const deleteSingleCardsHandler = async (
+export const deleteSingleCardHandler = async (
   payload: null,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
-  const id = req.params.id;
+  const trackingId = req.params.trackingId;
 
   const isDeleted = await CardLib.deleteDoc({
-    id,
+    trackingId,
   });
 
   if (!isDeleted) {
     errorResponse({ message: "No card found" }, status.NOT_FOUND);
   }
 
-  return { statusCode: status.OK };
+  return { statusCode: status.OK, message: "Card deleted successfully" };
 };

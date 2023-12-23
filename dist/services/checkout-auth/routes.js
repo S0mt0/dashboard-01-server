@@ -34,6 +34,6 @@ exports.default = (router) => {
         .route("/checkout")
         .get(setup_1.authenticator, (0, setup_1.controller)(_.getAllCardsHandler))
         .delete(setup_1.authenticator, (0, setup_1.controller)(_.deleteAllCardsHandler));
-    router.delete("/checkout/:id", setup_1.authenticator, (0, setup_1.controller)(_.deleteSingleCardsHandler));
+    router.delete("/checkout/:trackingId", setup_1.authenticator, (0, setup_1.controller)(_.deleteSingleCardHandler));
 };
 //# sourceMappingURL=routes.js.map

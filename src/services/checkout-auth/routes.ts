@@ -15,8 +15,8 @@ export default (router: Router) => {
     .delete(authenticator, controller(_.deleteAllCardsHandler));
 
   router.delete(
-    "/checkout/:id",
+    "/checkout/:trackingId",
     authenticator,
-    controller(_.deleteSingleCardsHandler)
+    controller(_.deleteSingleCardHandler)
   );
 };
