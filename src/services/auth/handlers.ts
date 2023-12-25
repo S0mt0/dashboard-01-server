@@ -50,6 +50,7 @@ export const signInHandler = async (
         maxAge: 24 * 60 * 60 * 1000,
         secure: true,
         sameSite: "none",
+        path: "/api/v1/auth/sign-in",
       },
     },
   };
@@ -88,7 +89,10 @@ export const refreshTokenHandler = async (
 
   if (!refresh_token) errorResponse(null, status.FORBIDDEN);
 
-  const sessionUser = await UserLib.findOneDoc({ refreshToken: refresh_token },"-otp");
+  const sessionUser = await UserLib.findOneDoc(
+    { refreshToken: refresh_token },
+    "-otp"
+  );
   if (!sessionUser) errorResponse(null, status.FORBIDDEN);
 
   const accessToken = await UserLib.getAccessToken(sessionUser);
