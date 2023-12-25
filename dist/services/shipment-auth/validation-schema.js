@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shipmentPayload = void 0;
 const joi_1 = __importDefault(require("joi"));
-const eventSchema = {
+const eventSchema = joi_1.default.object({
     eventId: joi_1.default.string().required(),
     timestamp: joi_1.default.string().required(),
     location: joi_1.default.object({
@@ -14,8 +14,8 @@ const eventSchema = {
         }).required(),
     }).required(),
     description: joi_1.default.string().required(),
-};
-exports.shipmentPayload = {
+}).unknown(true);
+exports.shipmentPayload = joi_1.default.object({
     belongsTo: joi_1.default.object({
         fullName: joi_1.default.string().required(),
         email: joi_1.default.string().email().required(),
@@ -49,5 +49,5 @@ exports.shipmentPayload = {
         .required()
         .unknown(true),
     events: joi_1.default.array().items(eventSchema).required(),
-};
+}).unknown(true);
 //# sourceMappingURL=validation-schema.js.map

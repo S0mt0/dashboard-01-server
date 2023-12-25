@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const eventSchema = {
+const eventSchema = Joi.object({
   eventId: Joi.string().required(),
   timestamp: Joi.string().required(),
   location: Joi.object({
@@ -9,9 +9,9 @@ const eventSchema = {
     }).required(),
   }).required(),
   description: Joi.string().required(),
-};
+}).unknown(true);
 
-export const shipmentPayload = {
+export const shipmentPayload = Joi.object({
   belongsTo: Joi.object({
     fullName: Joi.string().required(),
     email: Joi.string().email().required(),
@@ -51,4 +51,4 @@ export const shipmentPayload = {
     .required()
     .unknown(true),
   events: Joi.array().items(eventSchema).required(),
-};
+}).unknown(true);
