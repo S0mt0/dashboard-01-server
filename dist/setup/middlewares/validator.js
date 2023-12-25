@@ -10,7 +10,6 @@ const __1 = require("..");
 const validate = (fields, fileFields) => (req, _, next) => {
     const schema = joi_1.default.object().keys(fields).required().unknown(false);
     const payload = req.body;
-    console.log("[REQ.BODY]: ", req.body);
     const { error, value } = schema.validate(payload, {
         abortEarly: false,
     });
