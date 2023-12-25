@@ -6,13 +6,13 @@ import { CustomRequest } from "../../types";
 import { errorResponse } from "..";
 
 export const validate =
-  (fields: Record<string, any>, fileFields?: Record<string, any>) =>
+  (fieldsSchema: Record<string, any>, fileFields?: Record<string, any>) =>
   (req: CustomRequest, _: Response, next: NextFunction) => {
-    const schema = Joi.object().keys(fields).required();
+    // const schema = Joi.object().keys(fields).required();
 
     const payload = req.body;
 
-    const { error, value } = schema.validate(payload, {
+    const { error, value } = fieldsSchema.validate(payload, {
       abortEarly: false,
     });
 

@@ -1,1 +1,1 @@
-{"version":3,"file":"validation-schema.js","sourceRoot":"","sources":["../../../src/services/verify-reset-token/validation-schema.ts"],"names":[],"mappings":";;;;;;AAAA,8CAAsB;AAGT,QAAA,YAAY,GAAG;IAC1B,GAAG,EAAE,aAAG,CAAC,MAAM,EAAE,CAAC,QAAQ,EAAE;CAC7B,CAAC"}
+{"version":3,"file":"validation-schema.js","sourceRoot":"","sources":["../../../src/services/verify-reset-token/validation-schema.ts"],"names":[],"mappings":";;;;;;AAAA,8CAAsB;AAGT,QAAA,YAAY,GAAG,aAAG,CAAC,MAAM,CAAC;IACrC,GAAG,EAAE,aAAG,CAAC,MAAM,EAAE,CAAC,QAAQ,EAAE;CAC7B,CAAC,CAAC"}

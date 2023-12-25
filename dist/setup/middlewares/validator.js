@@ -7,10 +7,10 @@ exports.validate = void 0;
 const joi_1 = __importDefault(require("joi"));
 const http_status_codes_1 = require("http-status-codes");
 const __1 = require("..");
-const validate = (fields, fileFields) => (req, _, next) => {
-    const schema = joi_1.default.object().keys(fields).required();
+const validate = (fieldsSchema, fileFields) => (req, _, next) => {
+    // const schema = Joi.object().keys(fields).required();
     const payload = req.body;
-    const { error, value } = schema.validate(payload, {
+    const { error, value } = fieldsSchema.validate(payload, {
         abortEarly: false,
     });
     if (error)

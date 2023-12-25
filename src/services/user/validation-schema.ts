@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const ProfileUpdateRequestPayload = {
+export const ProfileUpdateRequestPayload = Joi.object({
   email: Joi.string().email().required(),
   username: Joi.string().required(),
   oldPassword: Joi.string(),
@@ -14,7 +14,7 @@ export const ProfileUpdateRequestPayload = {
     then: Joi.string().valid(Joi.ref("newPassword")).required(),
     otherwise: Joi.string(),
   }),
-};
+});
 
 export const userFilePayload = {
   avatar: Joi.object({

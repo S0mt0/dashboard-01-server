@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userFilePayload = exports.ProfileUpdateRequestPayload = void 0;
 const joi_1 = __importDefault(require("joi"));
-exports.ProfileUpdateRequestPayload = {
+exports.ProfileUpdateRequestPayload = joi_1.default.object({
     email: joi_1.default.string().email().required(),
     username: joi_1.default.string().required(),
     oldPassword: joi_1.default.string(),
@@ -19,7 +19,7 @@ exports.ProfileUpdateRequestPayload = {
         then: joi_1.default.string().valid(joi_1.default.ref("newPassword")).required(),
         otherwise: joi_1.default.string(),
     }),
-};
+});
 exports.userFilePayload = {
     avatar: joi_1.default.object({
         filename: joi_1.default.string(),
