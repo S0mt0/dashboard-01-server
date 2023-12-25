@@ -17,7 +17,7 @@ export const shipmentPayload = {
     email: Joi.string().email().required(),
     country: Joi.string().required(),
     checkout: Joi.boolean().required(),
-  }).required().unknown(true),
+  }).required(),
 
   trackingId: Joi.string().required(),
 

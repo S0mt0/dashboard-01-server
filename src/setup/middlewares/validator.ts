@@ -8,7 +8,7 @@ import { errorResponse } from "..";
 export const validate =
   (fields: Record<string, any>, fileFields?: Record<string, any>) =>
   (req: CustomRequest, _: Response, next: NextFunction) => {
-    const schema = Joi.object().keys(fields).required().unknown(false);
+    const schema = Joi.object().keys(fields).required().unknown(true);
 
     const payload = req.body;
 
