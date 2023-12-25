@@ -11,6 +11,8 @@ export const validate =
     const schema = Joi.object().keys(fields).required().unknown(false);
 
     const payload = req.body;
+    console.log("[REQ.BODY]: ", req.body);
+
     const { error, value } = schema.validate(payload, {
       abortEarly: false,
     });
