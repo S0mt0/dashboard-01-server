@@ -46,7 +46,6 @@ export const shipmentPayload = Joi.object({
       .required(),
 
     description: Joi.string().required(),
-    bill: Joi.number().allow(""),
   })
     .required()
     .unknown(true),
