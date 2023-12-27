@@ -46,7 +46,7 @@ export const signInHandler = async (
       cookieName: "refresh_token",
       cookieValue: refreshToken,
       cookieOptions: {
-        // httpOnly: true,
+        httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
         secure: true,
         sameSite: "none",
