@@ -23,10 +23,16 @@ const resetUserPasswordRequestHandler = async (payload, req) => {
         expiresAt,
     };
     await user.save();
-    const { resetMail: { html, text }, } = lib_1.mail.pass.passwordResetMailContent({
+    // const {
+    //   resetMail: { html, text },
+    // } = mail.pass.passwordResetMailContent({
+    //   username: user.username,
+    //   token: code,
+    //   platform: "MyDashboard",
+    // });
+    const { html, text } = lib_1.mail.pass.resetPasswordMailContent({
         username: user.username,
-        token: code,
-        platform: "MyDashboard",
+        otp: code,
     });
     // Send a mail to the user containing the generated token
     await lib_1.mail.sendNodemailer({
@@ -66,19 +72,24 @@ const resetPasswordHandler = async (payload, req) => {
     const reset_token = authHeader.split(" ")[1];
     const authUser = jsonwebtoken_1.default.verify(reset_token, process.env.JWT_ACCESS_TOKEN_SECRET);
     const sessionUser = await config_1.UserLib.findOneDoc({ _id: authUser === null || authUser === void 0 ? void 0 : authUser.userID });
-    console.log("[NEW PASSWORD USER]: ", sessionUser);
     // Update user password with the new password
     sessionUser.password = payload.newPassword;
     await sessionUser.save();
-    const { feedbackMail: { html, text }, } = lib_1.mail.pass.passwordResetMailContent({
+    // const {
+    //   feedbackMail: { html, text },
+    // } = mail.pass.passwordResetMailContent({
+    //   username: sessionUser.username,
+    //   platform: "My-Dashboard",
+    // });
+    const { html, text } = lib_1.mail.pass.resetPasswordSuccessMail({
         username: sessionUser.username,
-        platform: "My-Dashboard",
+        timestamp: new Date().toLocaleTimeString(),
     });
     /**  Send a mail to the user notifying them of the password update */
     await lib_1.mail.sendNodemailer({
         html,
         to: sessionUser.email,
-        subject: "PASSWORD RESET SUCCESSFUL",
+        subject: "Password Updated Successfully",
         text,
     });
     const accessToken = await config_1.UserLib.getAccessToken(sessionUser);

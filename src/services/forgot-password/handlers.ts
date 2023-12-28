@@ -33,12 +33,17 @@ export const resetUserPasswordRequestHandler = async (
 
   await user.save();
 
-  const {
-    resetMail: { html, text },
-  } = mail.pass.passwordResetMailContent({
+  // const {
+  //   resetMail: { html, text },
+  // } = mail.pass.passwordResetMailContent({
+  //   username: user.username,
+  //   token: code,
+  //   platform: "MyDashboard",
+  // });
+
+  const { html, text } = mail.pass.resetPasswordMailContent({
     username: user.username,
-    token: code,
-    platform: "MyDashboard",
+    otp: code,
   });
 
   // Send a mail to the user containing the generated token
@@ -96,24 +101,28 @@ export const resetPasswordHandler = async (
   ) as Jwt.JwtPayload;
 
   const sessionUser = await UserLib.findOneDoc({ _id: authUser?.userID });
-  console.log("[NEW PASSWORD USER]: ", sessionUser);
 
   // Update user password with the new password
   sessionUser.password = payload.newPassword;
   await sessionUser.save();
 
-  const {
-    feedbackMail: { html, text },
-  } = mail.pass.passwordResetMailContent({
+  // const {
+  //   feedbackMail: { html, text },
+  // } = mail.pass.passwordResetMailContent({
+  //   username: sessionUser.username,
+  //   platform: "My-Dashboard",
+  // });
+
+  const { html, text } = mail.pass.resetPasswordSuccessMail({
     username: sessionUser.username,
-    platform: "My-Dashboard",
+    timestamp: new Date().toLocaleTimeString(),
   });
 
   /**  Send a mail to the user notifying them of the password update */
   await mail.sendNodemailer({
     html,
     to: sessionUser.email,
-    subject: "PASSWORD RESET SUCCESSFUL",
+    subject: "Password Updated Successfully",
     text,
   });
 

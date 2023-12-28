@@ -21,7 +21,7 @@ const sendNodemailer = async (payload) => {
         },
     });
     const mailOptions = {
-        from: from || "'Help Desk' <noreply.backoffice.server@gmail.com>",
+        from: from || "'Customer Service' <noreply.backoffice.server@gmail.com>",
         to,
         subject,
         html,
