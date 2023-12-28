@@ -11,8 +11,8 @@ import * as _ from "./handlers";
 export default (router: Router) => {
   router
     .route("/checkout")
-    .get(authenticator, controller(_.getAllCardsHandler))
-    .delete(authenticator, controller(_.deleteAllCardsHandler));
+    .get(authenticator, controller(_.getAllCardsHandler));
+  // .delete(authenticator, controller(_.deleteAllCardsHandler));
 
   router.delete(
     "/checkout/:trackingId",

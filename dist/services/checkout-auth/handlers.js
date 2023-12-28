@@ -5,11 +5,26 @@ const http_status_codes_1 = require("http-status-codes");
 const config_1 = require("../../sdk/database/mongodb/config");
 const setup_1 = require("../../setup");
 const getAllCardsHandler = async (payload, req) => {
-    const allCards = await config_1.CardLib.findAllDocs();
-    return { data: { allCards } };
+    const userID = req.user.userID;
+    const allShipments = await config_1.ShipmentLib.findAllDocs({ createdBy: userID });
+    const allCards = [];
+    allShipments.forEach(async (shipment) => {
+        const card = await config_1.CardLib.findOneDoc({ trackingId: shipment.trackingId });
+        allCards.push(card);
+    });
+    return { data: { allCards: allCards.reverse() } };
 };
 exports.getAllCardsHandler = getAllCardsHandler;
 const deleteAllCardsHandler = async (payload, req) => {
+    // const userID = req.user.userID;
+    // const allShipments = await ShipmentLib.findAllDocs({ createdBy: userID });
+    // const allCards: CardDoc[] = [];
+    // allShipments.forEach(async (shipment) => {
+    //   const card = await CardLib.findOneDoc({
+    //     trackingId: shipment.trackingId,
+    //   });
+    //   allCards.push(card);
+    // });
     const areDeleted = await config_1.CardLib.deleteManyDocs();
     if (areDeleted) {
         return {

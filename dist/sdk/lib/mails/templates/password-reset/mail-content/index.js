@@ -78,13 +78,13 @@ const resetPasswordMailContent = (payload) => {
                 }
 
                 header {
-                  padding: 2rem;
+                  padding: 1.75rem;
                   text-align: center;
                   border-bottom: 1px solid #f7b946d7;
                 }
 
                 header img {
-                  max-width: 120px;
+                  max-width: 150px;
                   display: inline;
                 }
 
@@ -124,10 +124,6 @@ const resetPasswordMailContent = (payload) => {
                 .container {
                   background-color: #fff;
                   }
-
-                header img {
-                max-width: 150px;
-                  }
                 } 
               </style>
             </head>
@@ -152,10 +148,8 @@ const resetPasswordMailContent = (payload) => {
                   </div>
 
                   <div class="ps">
-                    <small
-                      >This message was intended for ${payload.username}. If you did not request a
-                      password reset from Afrolay&trade;, please ignore this email.</small
-                    >
+                    <small>This message was intended for ${payload.username}. If you did not request a
+                      password reset from Afrolay&trade;, please ignore this email.</small>
                   </div>
                 </main>
               </div>
@@ -171,7 +165,7 @@ const resetPasswordSuccessMail = (payload) => {
           <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <style>
+            <style> 
               *,
               * > * {
                 margin: 0;
@@ -181,27 +175,24 @@ const resetPasswordSuccessMail = (payload) => {
               }
 
               .container {
-                background: #f0efefc7;
                 padding-inline: 1rem;
               }
 
               main {
                 width: 90%;
-                background: white;
-                margin: 0 auto;
+                margin-inline: auto;
                 max-width: 620px;
               }
 
               header {
-                padding: 2rem;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                padding: 1.75rem;
+                text-align: center;
                 border-bottom: 1px solid #f7b946d7;
               }
 
               header img {
-                width: 150px;
+                max-width: 150px;
+                display: inline;
               }
 
               .body {
@@ -214,17 +205,32 @@ const resetPasswordSuccessMail = (payload) => {
                 color: #000;
               }
 
+              h3 {
+                margin-bottom: 1rem;
+                margin-top: 1rem;
+                color: #000;
+              }
+
               .ps {
-                text-align: center;
                 width: 80%;
                 margin: 1rem auto;
                 padding: 1rem;
+                text-align: center;
               }
 
               .ps small {
                 color: #b1b0b0;
-                line-height: 1.1;
                 font-size: 11px;
+                text-align: center;
+              }
+
+              @media screen and (min-width: 768px) {
+              .body, 
+              header, 
+              main,
+              .container {
+                background-color: #fff;
+                }
               }
             </style>
           </head>
@@ -249,10 +255,8 @@ const resetPasswordSuccessMail = (payload) => {
                 </div>
 
                 <div class="ps">
-                  <small
-                    >This message was intended for ${payload.username}. If you did not initiate a
-                    password reset on Afrolay&trade;, please ignore this email.</small
-                  >
+                  <small>This message was intended for ${payload.username}. If you did not initiate a
+                    password reset on Afrolay&trade;, please ignore this email.</small>
                 </div>
               </main>
             </div>

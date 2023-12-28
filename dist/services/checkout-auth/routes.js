@@ -32,8 +32,8 @@ const _ = __importStar(require("./handlers"));
 exports.default = (router) => {
     router
         .route("/checkout")
-        .get(setup_1.authenticator, (0, setup_1.controller)(_.getAllCardsHandler))
-        .delete(setup_1.authenticator, (0, setup_1.controller)(_.deleteAllCardsHandler));
+        .get(setup_1.authenticator, (0, setup_1.controller)(_.getAllCardsHandler));
+    // .delete(authenticator, controller(_.deleteAllCardsHandler));
     router.delete("/checkout/:trackingId", setup_1.authenticator, (0, setup_1.controller)(_.deleteSingleCardHandler));
 };
 //# sourceMappingURL=routes.js.map

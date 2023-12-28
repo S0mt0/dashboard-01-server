@@ -1,22 +1,41 @@
 import { StatusCodes as status } from "http-status-codes";
 
-import { CardLib } from "../../sdk/database/mongodb/config";
+import { CardLib, ShipmentLib } from "../../sdk/database/mongodb/config";
 import { CustomRequest, ServiceResponse } from "../../types";
 import { errorResponse } from "../../setup";
+import { CardDoc } from "../../sdk/database/mongodb";
 
 export const getAllCardsHandler = async (
   payload: null,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
-  const allCards = await CardLib.findAllDocs();
+  const userID = req.user.userID;
+  const allShipments = await ShipmentLib.findAllDocs({ createdBy: userID });
 
-  return { data: { allCards } };
+  const allCards: CardDoc[] = [];
+  allShipments.forEach(async (shipment) => {
+    const card = await CardLib.findOneDoc({ trackingId: shipment.trackingId });
+    allCards.push(card);
+  });
+
+  return { data: { allCards: allCards.reverse() } };
 };
 
 export const deleteAllCardsHandler = async (
   payload: null,
   req: CustomRequest
 ): Promise<ServiceResponse> => {
+  // const userID = req.user.userID;
+
+  // const allShipments = await ShipmentLib.findAllDocs({ createdBy: userID });
+
+  // const allCards: CardDoc[] = [];
+  // allShipments.forEach(async (shipment) => {
+  //   const card = await CardLib.findOneDoc({
+  //     trackingId: shipment.trackingId,
+  //   });
+  //   allCards.push(card);
+  // });
   const areDeleted = await CardLib.deleteManyDocs();
 
   if (areDeleted) {
