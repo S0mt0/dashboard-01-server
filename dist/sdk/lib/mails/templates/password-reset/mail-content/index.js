@@ -77,6 +77,8 @@ const resetPasswordMailContent = (payload) => {
                 background: white;
                 margin: 0 auto;
                 max-width: 620px;
+                background-color: #fff
+
               }
 
               header {
@@ -85,6 +87,7 @@ const resetPasswordMailContent = (payload) => {
                 justify-content: center;
                 align-items: center;
                 border-bottom: 1px solid #f7b946d7;
+                background-color: #fff
               }
 
               header img {
@@ -93,6 +96,8 @@ const resetPasswordMailContent = (payload) => {
 
               .body {
                 padding: 2rem 1.1rem;
+                background-color: #fff
+
               }
 
               h1 {
@@ -122,21 +127,31 @@ const resetPasswordMailContent = (payload) => {
           </head>
           <body>
             <div class="container">
-              <main>
-                <header>
+              <main style="
+              background-color: #fff;
+              width: 90%;
+              margin: 0 auto;
+              max-width: 620px;
+              ">
+                <header style="
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                ">
                   <img
                     src="https://res.cloudinary.com/doszbexiw/image/upload/v1703759856/Afrolay/logo-01_cjdnpu.png"
                     alt="logo"
                   />
                 </header>
-                <div class="body">
+                <div class="body" style="background-color: #fff">
                   <h1>Dear ${payload.username},</h1>
                   <p>
                     You requested to reset your password on
                     <strong>Afrolay&trade;.</strong> Use the 6-digit code below to
                     initiate a password reset.
                   </p>
-                  <h3>${payload.otp}</h3>
+                  <h3 style="margin-block: 1rem">${payload.otp}</h3>
                   <p>This code is valid for the next 15 minutes.</p>
                 </div>
 

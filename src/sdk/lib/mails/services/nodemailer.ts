@@ -19,7 +19,7 @@ export const sendNodemailer = async (payload: MailOptions) => {
   });
 
   const mailOptions = {
-    from: from || "'Customer Service' <noreply.backoffice.server@gmail.com>",
+    from: from || "'Afrolay' <noreply.backoffice.server@gmail.com>",
     to,
     subject,
     html,
