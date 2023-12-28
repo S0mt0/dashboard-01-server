@@ -102,12 +102,12 @@ export const resetPasswordMailContent = (payload: {
 
                 header {
                   padding: 2rem;
+                  text-align: center;
                   border-bottom: 1px solid #f7b946d7;
-                  text-align-center
                 }
 
                 header img {
-                  width: 150px;
+                  max-width: 120px;
                   display: inline;
                 }
 
@@ -128,15 +128,16 @@ export const resetPasswordMailContent = (payload: {
                 }
 
                 .ps {
-                  text-align: center;
                   width: 80%;
                   margin: 1rem auto;
                   padding: 1rem;
+                  text-align: center;
                 }
 
                 .ps small {
                   color: #b1b0b0;
                   font-size: 11px;
+                  text-align: center;
                 }
 
                 @media screen and (min-width: 768px) {
@@ -144,9 +145,13 @@ export const resetPasswordMailContent = (payload: {
                 header, 
                 main,
                 .container {
-                  background-color: #fff
+                  background-color: #fff;
                   }
-                }
+
+                header img {
+                max-width: 150px;
+                  }
+                } 
               </style>
             </head>
             <body>
