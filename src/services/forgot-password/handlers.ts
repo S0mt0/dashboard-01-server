@@ -50,7 +50,7 @@ export const resetUserPasswordRequestHandler = async (
   await mail.sendNodemailer({
     html,
     to: user.email,
-    subject: `[${user.otp.code}] Reset your password`,
+    subject: `[${code}] Reset your password`,
     text,
   });
 

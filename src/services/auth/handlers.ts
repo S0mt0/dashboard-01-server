@@ -74,6 +74,7 @@ export const signOutHandler = async (
       cookieOptions: {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
       },
     },
     statusCode: status.NO_CONTENT,

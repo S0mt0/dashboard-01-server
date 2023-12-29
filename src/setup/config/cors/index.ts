@@ -12,6 +12,7 @@ const prodOrigin = [
 const devOrigin = [
   "http://localhost:3000",
   "http://localhost:5173",
+  "http://localhost:4173",
   "https://dhlimited.vercel.app",
   "https://www.dhlimited.vercel.app",
   "https://dhlimited.onrender.com",
@@ -43,7 +44,7 @@ export const corsOptions: CorsOptions = {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS..."));
+      callback(new Error("Not allowed by CORS"));
     }
   },
 };

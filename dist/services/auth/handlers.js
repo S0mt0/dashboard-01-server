@@ -53,6 +53,7 @@ const signOutHandler = async (payload, req) => {
             cookieOptions: {
                 httpOnly: true,
                 secure: true,
+                sameSite: "none",
             },
         },
         statusCode: http_status_codes_1.StatusCodes.NO_CONTENT,

@@ -38,7 +38,7 @@ const resetUserPasswordRequestHandler = async (payload, req) => {
     await lib_1.mail.sendNodemailer({
         html,
         to: user.email,
-        subject: `[${user.otp.code}] Reset your password`,
+        subject: `[${code}] Reset your password`,
         text,
     });
     const reset_token = jsonwebtoken_1.default.sign({ email: user.email }, process.env.JWT_ACCESS_TOKEN_SECRET, {
