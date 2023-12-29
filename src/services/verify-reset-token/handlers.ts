@@ -43,8 +43,6 @@ export const verifyTokenHandler = async (
     );
   }
 
-  console.log("[SESSION USER]: ", sessionUser);
-
   if (+sessionUser.otp.code !== +payload.otp) {
     errorResponse({
       message: "That code was not a match. Try again",
@@ -79,6 +77,7 @@ export const verifyTokenHandler = async (
       cookieOptions: {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
       },
     },
   };
@@ -120,19 +119,16 @@ export const resendTokenHandler = async (
 
   await sessionUser.save();
 
-  const {
-    resetMail: { html, text },
-  } = mail.pass.passwordResetMailContent({
+  const { html, text } = mail.pass.resetPasswordMailContent({
     username: sessionUser.username,
-    token: code,
-    platform: "MyDashboard",
+    otp: code,
   });
 
   // Send a mail to the user containing the generated token
   await mail.sendNodemailer({
     html,
     to: sessionUser.email,
-    subject: "PASSWORD RESET",
+    subject: `[${code}] Reset your password`,
     text,
   });
 

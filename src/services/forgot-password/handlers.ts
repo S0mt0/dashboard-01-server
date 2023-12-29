@@ -115,7 +115,7 @@ export const resetPasswordHandler = async (
 
   const { html, text } = mail.pass.resetPasswordSuccessMail({
     username: sessionUser.username,
-    timestamp: new Date().toLocaleTimeString(),
+    timestamp: new Date(),
   });
 
   /**  Send a mail to the user notifying them of the password update */

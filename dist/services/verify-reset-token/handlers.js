@@ -27,7 +27,6 @@ const verifyTokenHandler = async (payload, req) => {
             message: `No account found for ${sessionUser.email}`,
         }, http_status_codes_1.StatusCodes.FORBIDDEN);
     }
-    console.log("[SESSION USER]: ", sessionUser);
     if (+sessionUser.otp.code !== +payload.otp) {
         (0, setup_1.errorResponse)({
             message: "That code was not a match. Try again",
@@ -53,6 +52,7 @@ const verifyTokenHandler = async (payload, req) => {
             cookieOptions: {
                 httpOnly: true,
                 secure: true,
+                sameSite: "none",
             },
         },
     };
@@ -80,16 +80,15 @@ const resendTokenHandler = async (payload, req) => {
         expiresAt,
     };
     await sessionUser.save();
-    const { resetMail: { html, text }, } = lib_1.mail.pass.passwordResetMailContent({
+    const { html, text } = lib_1.mail.pass.resetPasswordMailContent({
         username: sessionUser.username,
-        token: code,
-        platform: "MyDashboard",
+        otp: code,
     });
     // Send a mail to the user containing the generated token
     await lib_1.mail.sendNodemailer({
         html,
         to: sessionUser.email,
-        subject: "PASSWORD RESET",
+        subject: `[${code}] Reset your password`,
         text,
     });
     /** Obscure email */

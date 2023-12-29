@@ -83,7 +83,7 @@ const resetPasswordHandler = async (payload, req) => {
     // });
     const { html, text } = lib_1.mail.pass.resetPasswordSuccessMail({
         username: sessionUser.username,
-        timestamp: new Date().toLocaleTimeString(),
+        timestamp: new Date(),
     });
     /**  Send a mail to the user notifying them of the password update */
     await lib_1.mail.sendNodemailer({

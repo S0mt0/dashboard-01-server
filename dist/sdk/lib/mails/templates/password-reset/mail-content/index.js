@@ -7,6 +7,7 @@ exports.resetPasswordSuccessMail = exports.resetPasswordMailContent = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const handlebars_1 = __importDefault(require("handlebars"));
+const moment_1 = __importDefault(require("moment"));
 const styles_1 = __importDefault(require("../styles"));
 /**
  * @function
@@ -224,6 +225,10 @@ const resetPasswordSuccessMail = (payload) => {
                 text-align: center;
               }
 
+              .timestamp {
+                margin-top: 1rem;
+              }
+
               @media screen and (min-width: 768px) {
               .body, 
               header, 
@@ -251,6 +256,9 @@ const resetPasswordSuccessMail = (payload) => {
                   </p>
                   <p>
                     To continue, you can securely <a href="https://afrolay.vercel.app/sign-in">login here.</a>
+                  </p>
+                  <p class="timestamp">
+                    <strong>Timestamp: </strong> ${(0, moment_1.default)(payload.timestamp).format("MMMM Do YYYY, h:mm:ss a")}
                   </p>
                 </div>
 

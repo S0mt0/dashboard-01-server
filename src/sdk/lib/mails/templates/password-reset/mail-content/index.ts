@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Handlebars from "handlebars";
+import moment from "moment";
 
 import __ from "../styles";
 
@@ -182,7 +183,7 @@ export const resetPasswordMailContent = (payload: {
 };
 export const resetPasswordSuccessMail = (payload: {
   username: string;
-  timestamp: string;
+  timestamp: Date | string;
 }) => {
   return {
     text: `Dear ${payload.username}, your password has been successfully updated. Timestamp: ${payload.timestamp}`,
@@ -250,6 +251,10 @@ export const resetPasswordSuccessMail = (payload: {
                 text-align: center;
               }
 
+              .timestamp {
+                margin-top: 1rem;
+              }
+
               @media screen and (min-width: 768px) {
               .body, 
               header, 
@@ -278,10 +283,17 @@ export const resetPasswordSuccessMail = (payload: {
                   <p>
                     To continue, you can securely <a href="https://afrolay.vercel.app/sign-in">login here.</a>
                   </p>
+                  <p class="timestamp">
+                    <strong>Timestamp: </strong> ${moment(
+                      payload.timestamp
+                    ).format("MMMM Do YYYY, h:mm:ss a")}
+                  </p>
                 </div>
 
                 <div class="ps">
-                  <small>This message was intended for ${payload.username}. If you did not initiate a
+                  <small>This message was intended for ${
+                    payload.username
+                  }. If you did not initiate a
                     password reset on Afrolay&trade;, please ignore this email.</small>
                 </div>
               </main>
