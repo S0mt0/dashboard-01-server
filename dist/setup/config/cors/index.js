@@ -4,6 +4,8 @@ exports.corsOptions = void 0;
 const prodOrigin = [
     "https://afrolay.vercel.app",
     "https://www.afrolay.vercel.app",
+    "https://www.parcelo.vercel.app",
+    "https://parcelo.vercel.app",
     "https://afrolay.netlify.app",
     "https://www.afrolay.netlify.app",
     "https://www.dhlimited.onrender.com",

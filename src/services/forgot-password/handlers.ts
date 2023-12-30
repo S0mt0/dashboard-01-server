@@ -41,7 +41,7 @@ export const resetUserPasswordRequestHandler = async (
   //   platform: "MyDashboard",
   // });
 
-  const { html, text } = mail.pass.resetPasswordMailContent({
+  const { html, text } = mail.pass.resetPasswordMail({
     username: user.username,
     otp: code,
   });

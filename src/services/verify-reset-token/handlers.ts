@@ -119,7 +119,7 @@ export const resendTokenHandler = async (
 
   await sessionUser.save();
 
-  const { html, text } = mail.pass.resetPasswordMailContent({
+  const { html, text } = mail.pass.resetPasswordMail({
     username: sessionUser.username,
     otp: code,
   });

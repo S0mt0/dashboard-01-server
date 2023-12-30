@@ -80,7 +80,7 @@ const resendTokenHandler = async (payload, req) => {
         expiresAt,
     };
     await sessionUser.save();
-    const { html, text } = lib_1.mail.pass.resetPasswordMailContent({
+    const { html, text } = lib_1.mail.pass.resetPasswordMail({
         username: sessionUser.username,
         otp: code,
     });

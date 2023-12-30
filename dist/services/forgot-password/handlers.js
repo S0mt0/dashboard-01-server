@@ -30,7 +30,7 @@ const resetUserPasswordRequestHandler = async (payload, req) => {
     //   token: code,
     //   platform: "MyDashboard",
     // });
-    const { html, text } = lib_1.mail.pass.resetPasswordMailContent({
+    const { html, text } = lib_1.mail.pass.resetPasswordMail({
         username: user.username,
         otp: code,
     });
