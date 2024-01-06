@@ -5,6 +5,8 @@ const prodOrigin = [
     "https://afrolay.vercel.app",
     "https://www.afrolay.vercel.app",
     "https://www.parcelo.vercel.app",
+    "https://www.dhlshipping.vercel.app",
+    "https://dhlshipping.vercel.app",
     "https://parcelo.vercel.app",
     "https://afrolay.netlify.app",
     "https://www.afrolay.netlify.app",

@@ -32,7 +32,7 @@ exports.userFilePayload = {
                 .valid("image/jpeg", "image/jpg", "image/gif", "image/png")
                 .required(),
         }).required(),
-        size: joi_1.default.number().max(5000000).required(),
+        size: joi_1.default.number().max(5000000).required(), // Max of 5 megabytes(MB) per profile image
         name: joi_1.default.string().required(),
         type: joi_1.default.string()
             .valid("image/jpeg", "image/jpg", "image/gif", "image/png")
