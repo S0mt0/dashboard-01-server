@@ -60,22 +60,24 @@ const updateUserHandler = async (payload, req) => {
         });
         avatar_url = uploadResponse.secure_url;
     }
+    else {
+        avatar_url = sessionUser.avatar_url;
+    }
     const data = {
         avatar: avatar_url,
         username: payload.username,
         email: payload.email,
         password: payload.newPassword,
     };
-    const updatedUser = await config_1.UserLib.findAndUpdateDoc({ _id: sessionUserId }, Object.assign({}, data));
-    // If updating the user in the database was unsuccessful, delete the newly uploaded image from cloudinary at once
-    if (!updatedUser) {
-        await config_2.cloudinary.uploader.destroy(uploadResponse.public_id, {
-            invalidate: true,
-            resource_type: "image",
-            type: "authenticated",
-        });
-        (0, setup_1.errorResponse)({ message: "User not found" }, http_status_codes_1.StatusCodes.NOT_FOUND);
-    }
+    if (avatar_url)
+        sessionUser.avatar = avatar_url;
+    if (payload.username)
+        sessionUser.username = payload.username;
+    if (payload.email)
+        sessionUser.email = payload.email;
+    if (payload.newPassword)
+        sessionUser.password = payload.newPassword;
+    await sessionUser.save();
     // If updating the user in the database was successful, delete the old profile image from cloudinary at once
     await config_2.cloudinary.uploader.destroy(old_public_id, {
         invalidate: true,
@@ -84,7 +86,7 @@ const updateUserHandler = async (payload, req) => {
     });
     return {
         statusCode: http_status_codes_1.StatusCodes.OK,
-        data: { user: updatedUser },
+        data: { user: sessionUser },
         message: "Profile updated successfully",
     };
 };
