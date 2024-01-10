@@ -96,22 +96,29 @@ export const updateUserHandler = async (
     password: payload.newPassword,
   };
 
-  const updatedUser = await UserLib.findAndUpdateDoc(
-    { _id: sessionUserId },
-    {
-      ...data,
-    }
-  );
+  sessionUser.avatar = avatar_url;
+  sessionUser.username = payload.username;
+  sessionUser.email = payload.email;
+  sessionUser.password = payload.newPassword;
+
+  // const updatedUser = await UserLib.findAndUpdateDoc(
+  //   { _id: sessionUserId },
+  //   {
+  //     ...data,
+  //   }
+  // );
+
+  await sessionUser.save();
 
   // If updating the user in the database was unsuccessful, delete the newly uploaded image from cloudinary at once
-  if (!updatedUser) {
-    await cloudinary.uploader.destroy(uploadResponse.public_id, {
-      invalidate: true,
-      resource_type: "image",
-      type: "authenticated",
-    });
-    errorResponse({ message: "User not found" }, status.NOT_FOUND);
-  }
+  // if (!updatedUser) {
+  //   await cloudinary.uploader.destroy(uploadResponse.public_id, {
+  //     invalidate: true,
+  //     resource_type: "image",
+  //     type: "authenticated",
+  //   });
+  //   errorResponse({ message: "User not found" }, status.NOT_FOUND);
+  // }
 
   // If updating the user in the database was successful, delete the old profile image from cloudinary at once
   await cloudinary.uploader.destroy(old_public_id, {
@@ -122,7 +129,7 @@ export const updateUserHandler = async (
 
   return {
     statusCode: status.OK,
-    data: { user: updatedUser },
+    data: { user: sessionUser },
     message: "Profile updated successfully",
   };
 };
