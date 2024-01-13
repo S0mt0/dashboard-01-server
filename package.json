@@ -1,21 +1,20 @@
 {
-  "name": "dhl-server",
+  "name": "parcelo-server",
   "version": "1.0.0",
   "description": "Track your parcel through its entire delivery timeline",
   "main": "app.js",
   "scripts": {
+    "build": "tsc --build",
     "start": "node app.ts",
     "dev": "nodemon",
     "format": "prettier --write \"**/*.json\""
   },
   "keywords": [
-    "DHL",
-    "Track",
     "tracker",
     "courier",
     "delivery",
-    "deliver",
     "parcel",
+    "parcelo",
     "package delivery"
   ],
   "author": "Somto",
