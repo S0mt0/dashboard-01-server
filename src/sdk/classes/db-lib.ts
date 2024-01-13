@@ -4,8 +4,8 @@ import { StatusCodes as status } from "http-status-codes";
 import { IMongoDocsLib } from "../../types/classes";
 import { errorResponse } from "../../setup";
 
-export class DbLib<D extends Partial<Document>, F, M extends Model<D, {}, F>>
-  implements IMongoDocsLib<D, F, M>
+export class DbLib<D extends Partial<Document>, M extends Model<D>>
+  implements IMongoDocsLib<D, M>
 {
   public document: D | null = null;
 

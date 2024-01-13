@@ -16,7 +16,7 @@ export interface IUser {
 
 export interface UserDoc extends Partial<Document>, IUser {}
 
-export type UserModel = Model<UserDoc, {}, IUserMethods>;
+export type UserModel = Model<UserDoc, IUserMethods>;
 
 export interface IUserMethods {
   comparePassword: (candidatePassword: string) => Promise<boolean>;

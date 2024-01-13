@@ -25,11 +25,6 @@ const ShipmentSchema = new mongoose.Schema<IShipment, ShipmentModel>(
         type: String,
         trim: true,
       },
-
-      checkout: {
-        type: Boolean,
-        default: false,
-      },
     },
 
     trackingId: {
@@ -83,7 +78,7 @@ const ShipmentSchema = new mongoose.Schema<IShipment, ShipmentModel>(
       status: {
         type: String,
         enum: {
-          values: ["pending", "shipping", "seized", "delivered"],
+          values: ["pending", "shipping", "delivered"],
           message: "'{VALUE}' is not supported",
         },
         default: "pending",
@@ -97,8 +92,6 @@ const ShipmentSchema = new mongoose.Schema<IShipment, ShipmentModel>(
           "Provide a description of the current status of shipment",
         ],
       },
-
-      bill: Number,
     },
 
     events: [

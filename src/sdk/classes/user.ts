@@ -3,11 +3,7 @@ import bcrypt from "bcrypt";
 import { StatusCodes as status } from "http-status-codes";
 
 import { DbLib } from "./db-lib";
-import {
-  IUserMethods,
-  UserDoc,
-  UserModel,
-} from "../../sdk/database/mongodb/types/user";
+import { UserDoc, UserModel } from "../../sdk/database/mongodb/types/user";
 import { errorResponse } from "../../setup";
 
 /**
@@ -16,7 +12,7 @@ import { errorResponse } from "../../setup";
  * @extends DbLib
  */
 
-export class User extends DbLib<UserDoc, IUserMethods, UserModel> {
+export class User extends DbLib<UserDoc, UserModel> {
   constructor(
     protected model: UserModel,
     public libName: string

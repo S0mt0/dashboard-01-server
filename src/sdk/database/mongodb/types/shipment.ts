@@ -21,7 +21,6 @@ export interface IShipment {
     fullName?: string;
     email?: string;
     country?: string;
-    checkout?: boolean;
   };
 
   trackingId: string;
@@ -47,11 +46,9 @@ export interface IShipment {
       };
     };
 
-    status: "pending" | "seized" | "delivered" | "shipping";
+    status: "pending" | "delivered" | "shipping";
 
     description: string;
-
-    bill?: number;
   };
 
   events: IEvent[];

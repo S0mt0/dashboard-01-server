@@ -157,7 +157,7 @@ export const resetPasswordMail = (payload: {
                   <main>
                     <header>
                       <img
-                        src="https://res.cloudinary.com/doszbexiw/image/upload/v1703759856/Afrolay/logo-01_cjdnpu.png"
+                        src="https://res.cloudinary.com/doszbexiw/image/upload/v1704008185/Afrolay/E3B8AB35-D1E0-4003-A8EB-3B484C5FEFCB_csixj4.png"
                         alt="logo"
                       />
                     </header>
@@ -165,7 +165,7 @@ export const resetPasswordMail = (payload: {
                       <h1>Dear ${payload.username},</h1>
                       <p>
                         You requested to reset your password on
-                        <strong>Afrolay&trade;.</strong> Use the 6-digit code below to
+                        <strong>Parcelo&trade;.</strong> Use the 6-digit code below to
                         initiate a password reset.
                       </p>
                       <h3>${payload.otp}</h3>

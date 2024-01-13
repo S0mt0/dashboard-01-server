@@ -27,7 +27,6 @@ export type TShipmentPayload = {
     fullName: string;
     email: string;
     country: string;
-    checkout: boolean;
   };
 
   trackingId: string;
@@ -53,11 +52,9 @@ export type TShipmentPayload = {
       };
     };
 
-    status: "pending" | "seized" | "delivered" | "shipping";
+    status: "pending" | "delivered" | "shipping";
 
     description: string;
-
-    bill?: number;
   };
 
   events: TEvent[];

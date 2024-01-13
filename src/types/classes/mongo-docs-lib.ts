@@ -2,8 +2,7 @@ import { Document, Model, FilterQuery } from "mongoose";
 
 export interface IMongoDocsLib<
   D extends Partial<Document>,
-  F /** "F" is a generic type representing typeof schema methods */,
-  M extends Model<D, {}, F>,
+  M extends Model<D>,
 > {
   document: D;
   docExists: (query: FilterQuery<D>) => Promise<boolean>;
