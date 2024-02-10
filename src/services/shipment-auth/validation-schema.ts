@@ -16,7 +16,7 @@ export const shipmentPayload = Joi.object({
     fullName: Joi.string().required(),
     email: Joi.string().email().required(),
     country: Joi.string().required(),
-    checkout: Joi.boolean().required(),
+    checkout: Joi.boolean(),
   }).required(),
 
   trackingId: Joi.string().required(),
