@@ -11,7 +11,8 @@ const prodOrigin = [
   "https://www.afrolay.netlify.app",
   "https://www.dhlimited.onrender.com",
   "https://dhlimited.onrender.com",
-  "http://localhost:3000",
+  "https://fastexpress-courier.vercel.app",
+  "https://www.fastexpress-courier.vercel.app",
 ];
 
 const devOrigin = [
