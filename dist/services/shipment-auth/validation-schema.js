@@ -20,8 +20,8 @@ exports.shipmentPayload = joi_1.default.object({
         fullName: joi_1.default.string().required(),
         email: joi_1.default.string().email().required(),
         country: joi_1.default.string().required(),
-        checkout: joi_1.default.boolean().required(),
-    }).required(),
+        checkout: joi_1.default.boolean(),
+    }),
     trackingId: joi_1.default.string().required(),
     origin: joi_1.default.object({
         address: joi_1.default.object({
