@@ -13,6 +13,7 @@ const prodOrigin = [
   "https://dhlimited.onrender.com",
   "https://fastexpress-courier.vercel.app",
   "https://www.fastexpress-courier.vercel.app",
+  "http://localhost:3000",
 ];
 
 const devOrigin = [
